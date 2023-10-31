@@ -3,14 +3,7 @@
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import { Separator } from '$lib/components/ui/separator';
-  import {
-    TIMERSTATE,
-    elaspedTime,
-    time,
-    timeDisplay,
-    timeStops,
-    timerState
-  } from '$lib/stores/timeStore.js';
+  import { TIMERSTATE, time, timeDisplay, timeStops, timerState } from '$lib/stores/timeStore.js';
 
   export let data;
 
@@ -39,9 +32,6 @@
     timeStops.clearStops();
     time.reset();
   }
-
-  $: console.log($timeStops);
-  $: console.log($elaspedTime);
 </script>
 
 <main>
