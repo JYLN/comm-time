@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FolderClock, TimerReset } from 'lucide-svelte';
+	import { FolderClock, History } from 'lucide-svelte';
 	import * as Avatar from './avatar';
 	import { Button } from './button';
 	import * as DropdownMenu from './dropdown-menu';
@@ -8,7 +8,7 @@
 <nav>
 	<div class="buttons">
 		<Button variant="link">
-			<TimerReset class="mr-2 h-4 w-4" />
+			<History class="mr-2 h-4 w-4" />
 			Previous Time
 		</Button>
 		<Button variant="link">
