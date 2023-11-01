@@ -3,6 +3,7 @@
   import { timeEntrySchema, type TimeEntrySchema } from '$lib/schemas';
   import { timeStops } from '$lib/stores/timeStore';
   import { cn } from '$lib/utils';
+  import type { FormOptions } from 'formsnap';
   import { Check, ChevronsUpDown } from 'lucide-svelte';
   import { tick } from 'svelte';
   import type { SuperValidated } from 'sveltekit-superforms';
@@ -13,6 +14,7 @@
   import TimeEntryHiddenInput from '../ui/TimeEntryHiddenInput.svelte';
 
   export let form: SuperValidated<TimeEntrySchema>;
+  export let options: FormOptions<TimeEntrySchema>;
 
   let open = false;
 
@@ -26,6 +28,7 @@
 
 <Form.Root
   {form}
+  {options}
   method="POST"
   action="?/createTime"
   schema={timeEntrySchema}
@@ -97,13 +100,5 @@
     <TimeEntryHiddenInput store={timeStops} />
     <Form.Validation />
   </Form.Field>
-  <Form.Field {config} name="end_time">
-    <TimeEntryHiddenInput store={timeStops} />
-    <Form.Validation />
-  </Form.Field>
-  <Form.Field {config} name="time_stops">
-    <TimeEntryHiddenInput store={timeStops} />
-    <Form.Validation />
-  </Form.Field>
-  <Form.Button>Submit</Form.Button>
+  <Form.Button disabled={$timeStops.length < 1}>Submit</Form.Button>
 </Form.Root>

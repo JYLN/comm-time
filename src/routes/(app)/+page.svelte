@@ -3,7 +3,16 @@
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import { Separator } from '$lib/components/ui/separator';
-  import { TIMERSTATE, time, timeDisplay, timeStops, timerState } from '$lib/stores/timeStore.js';
+  import { timeEntrySchema, type TimeEntrySchema } from '$lib/schemas';
+  import {
+    elaspedTime,
+    time,
+    timeDisplay,
+    TIMERSTATE,
+    timerState,
+    timeStops
+  } from '$lib/stores/timeStore.js';
+  import type { FormOptions } from 'formsnap';
 
   export let data;
 
@@ -32,6 +41,28 @@
     timeStops.clearStops();
     time.reset();
   }
+
+  const options: FormOptions<TimeEntrySchema> = {
+    validators: timeEntrySchema,
+    onSubmit: ({ formData }) => {
+      if ($timerState === TIMERSTATE.RUNNING) {
+        pauseTimer();
+        console.log($timeStops);
+      }
+
+      formData.set('end_time', $timeStops[$timeStops.length - 1]);
+      formData.set('elapsed_time', $elaspedTime.toString());
+    },
+    onResult: ({ result }) => {
+      switch (result.type) {
+        case 'success':
+        case 'redirect':
+          console.log('SUCCESS');
+          resetTimer();
+          break;
+      }
+    }
+  };
 </script>
 
 <main>
@@ -55,7 +86,7 @@
         <Separator />
       </Card.Header>
       <Card.Content>
-        <TimeEntryForm form={data.form} />
+        <TimeEntryForm form={data.form} {options} />
       </Card.Content>
     </Card.Root>
   </div>

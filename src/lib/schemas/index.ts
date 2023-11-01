@@ -8,10 +8,9 @@ export const timeEntrySchema = z.object({
   }),
   notes: z.string().optional(),
   start_time: z
-    .string()
-    .datetime({ message: 'You must start the timer before attempting to submit a time entry.' }),
-  end_time: z.string().datetime(),
-  time_stops: z.string(),
+    .string({ required_error: 'You must start the timer before submitting a time entry.' })
+    .datetime('You must start the timer before submitting a time entry.'),
+  end_time: z.string().datetime().optional(),
   elapsed_time: z.number(),
   user: z.string({ required_error: 'User is required' })
 });

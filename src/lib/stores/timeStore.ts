@@ -32,15 +32,15 @@ function createTimeStops() {
 
 export const timeStops = createTimeStops();
 
-function calculateElapsedTime(start: string, end: string): number {
-  const startTime = new Date(start);
-  const endTime = new Date(end);
-
-  return endTime.getTime() - startTime.getTime();
-}
-
 export const elaspedTime = derived(timeStops, ($timeStops) =>
   $timeStops.reduce((total, string, index, arr) => {
+    function calculateElapsedTime(start: string, end: string): number {
+      const startTime = new Date(start);
+      const endTime = new Date(end);
+
+      return endTime.getTime() - startTime.getTime();
+    }
+
     if (index === 0) return 0;
     return total + calculateElapsedTime(arr[index - 1], string);
   }, 0)
