@@ -1,7 +1,7 @@
 <script lang="ts">
   import { customers } from '$lib/mock-data';
   import { timeEntrySchema, type TimeEntrySchema } from '$lib/schemas';
-  import { elaspedTime, timeStops } from '$lib/stores/timeStore';
+  import { timeStops } from '$lib/stores/timeStore';
   import { cn } from '$lib/utils';
   import { Check, ChevronsUpDown } from 'lucide-svelte';
   import { tick } from 'svelte';
@@ -10,6 +10,7 @@
   import * as Command from '../ui/command';
   import * as Form from '../ui/form';
   import * as Popover from '../ui/popover';
+  import TimeEntryHiddenInput from '../ui/TimeEntryHiddenInput.svelte';
 
   export let form: SuperValidated<TimeEntrySchema>;
 
@@ -93,14 +94,16 @@
     </Form.Item>
   </Form.Field>
   <Form.Field {config} name="start_time">
-    <Form.Input type="hidden" value={$timeStops[0]} />
+    <TimeEntryHiddenInput store={timeStops} />
     <Form.Validation />
   </Form.Field>
   <Form.Field {config} name="end_time">
-    <Form.Input type="hidden" value={$timeStops[$timeStops.length - 1]} />
+    <TimeEntryHiddenInput store={timeStops} />
+    <Form.Validation />
   </Form.Field>
-  <Form.Field {config} name="elapsed_time">
-    <Form.Input type="hidden" value={$elaspedTime} />
+  <Form.Field {config} name="time_stops">
+    <TimeEntryHiddenInput store={timeStops} />
+    <Form.Validation />
   </Form.Field>
   <Form.Button>Submit</Form.Button>
 </Form.Root>

@@ -11,6 +11,7 @@ export const timeEntrySchema = z.object({
     .string()
     .datetime({ message: 'You must start the timer before attempting to submit a time entry.' }),
   end_time: z.string().datetime(),
+  time_stops: z.string(),
   elapsed_time: z.number(),
   user: z.string({ required_error: 'User is required' })
 });
