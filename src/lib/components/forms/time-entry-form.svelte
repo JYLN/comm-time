@@ -100,5 +100,7 @@
     <TimeEntryHiddenInput store={timeStops} />
     <Form.Validation />
   </Form.Field>
-  <Form.Button disabled={$timeStops.length < 1}>Submit</Form.Button>
+  <Form.Button class="transition-all duration-200 ease-in-out" disabled={$timeStops.length < 1}>
+    Submit
+  </Form.Button>
 </Form.Root>
