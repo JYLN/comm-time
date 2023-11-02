@@ -12,7 +12,7 @@
       <History class="mr-2 h-4 w-4" />
       Previous Time
     </Button>
-    <Button variant="link">
+    <Button variant="link" href="/shared">
       <FolderClock class="mr-2 h-4 w-4" />
       Shared Time
     </Button>
@@ -25,12 +25,12 @@
         </Button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content class="w-56">
-        <DropdownMenu.Item>
+        <DropdownMenu.Item href="/previous">
           <History class="mr-2 h-4 w-4" />
           Previous Time
         </DropdownMenu.Item>
         <DropdownMenu.Separator />
-        <DropdownMenu.Item>
+        <DropdownMenu.Item href="/shared">
           <FolderClock class="mr-2 h-5 w-5" />
           Shared Time
         </DropdownMenu.Item>
