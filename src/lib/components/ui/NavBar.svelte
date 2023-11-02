@@ -8,7 +8,7 @@
 
 <nav>
   <div class="buttons">
-    <Button variant="link">
+    <Button variant="link" href="/previous">
       <History class="mr-2 h-4 w-4" />
       Previous Time
     </Button>
