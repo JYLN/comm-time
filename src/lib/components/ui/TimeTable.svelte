@@ -1,8 +1,10 @@
 <script lang="ts">
   import * as Table from '$lib/components/ui/table';
+  import { humanize } from '$lib/utils';
   import moment from 'moment';
-  import { Render, Subscribe, createTable } from 'svelte-headless-table';
+  import { Render, Subscribe, createRender, createTable } from 'svelte-headless-table';
   import { readable } from 'svelte/store';
+  import TimeTableActions from './TimeTableActions.svelte';
 
   type TimeEntry = {
     id: string;
@@ -81,11 +83,20 @@
     table.column({
       accessor: 'elapsed_time',
       header: 'Total Time',
+      cell: ({ value }) => humanize(value)
+    }),
+    table.column({
+      accessor: (item) => item,
+      header: '',
+      id: 'actions',
       cell: ({ value }) => {
-        const duration = moment.duration(value);
-        return `${
-          duration.hours() > 1 ? `${duration.hours()}h ` : ''
-        }${duration.minutes()}m ${duration.seconds()}s`;
+        return createRender(TimeTableActions, {
+          id: value.id,
+          name: value.name,
+          customer: value.customer,
+          notes: value.notes,
+          elapsed_time: value.elapsed_time
+        });
       }
     })
   ]);

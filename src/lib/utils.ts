@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from 'clsx';
+import moment from 'moment';
 import { cubicOut } from 'svelte/easing';
 import type { TransitionConfig } from 'svelte/transition';
 import { twMerge } from 'tailwind-merge';
@@ -57,4 +58,14 @@ export const flyAndScale = (
 
 export const formatToString = (num: number): string => {
   return num.toString().padStart(2, '0');
+};
+
+export const humanize = (num: number): string => {
+  const duration = moment.duration(num);
+
+  const hours = duration.hours();
+  const minutes = duration.minutes();
+  const seconds = duration.seconds();
+
+  return hours > 1 ? `${hours}h ${minutes}m ${seconds}s` : `${minutes}m ${seconds}s`;
 };
