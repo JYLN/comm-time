@@ -1,5 +1,5 @@
 <script lang="ts">
-  import TimeEntryForm from '$lib/components/forms/time-entry-form.svelte';
+  import TimeEntryForm from '$lib/components/forms/TimeEntryForm.svelte';
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import { Separator } from '$lib/components/ui/separator';

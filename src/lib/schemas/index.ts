@@ -17,6 +17,13 @@ export const timeEntrySchema = z.object({
 
 export type TimeEntrySchema = typeof timeEntrySchema;
 
+export const editTimeEntrySchema = timeEntrySchema.omit({
+  start_time: true,
+  end_time: true,
+  elapsed_time: true
+});
+export type EditTimeEntrySchema = typeof editTimeEntrySchema;
+
 export const deleteTimeEntrySchema = z.object({
   id: z.string().min(1)
 });

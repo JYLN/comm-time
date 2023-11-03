@@ -1,9 +1,11 @@
+import { timeEntries } from '$lib/mock-data';
 import { deleteTimeEntrySchema } from '$lib/schemas';
 import { fail, type Actions } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 
 export async function load() {
   return {
+    tableData: timeEntries,
     form: superValidate(deleteTimeEntrySchema)
   };
 }

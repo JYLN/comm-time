@@ -5,5 +5,5 @@
 </script>
 
 <main class="container mx-auto">
-  <TimeTable form={data.form} />
+  <TimeTable form={data.form} data={data.tableData} />
 </main>

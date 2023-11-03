@@ -1,5 +1,6 @@
 <script lang="ts">
   import * as Table from '$lib/components/ui/table';
+  import type { TimeEntries } from '$lib/mock-data';
   import type { DeleteTimeEntrySchema } from '$lib/schemas';
   import { humanize } from '$lib/utils';
   import moment from 'moment';
@@ -8,55 +9,8 @@
   import type { SuperValidated } from 'sveltekit-superforms';
   import TimeTableActions from './TimeTableActions.svelte';
 
-  type TimeEntry = {
-    id: string;
-    name: string;
-    customer: string;
-    notes: string;
-    start_time: string;
-    end_time: string;
-    elapsed_time: number;
-  };
-
+  export let data: TimeEntries;
   export let form: SuperValidated<DeleteTimeEntrySchema>;
-  export let data: TimeEntry[] = [
-    {
-      id: 'sadfjas',
-      name: 'Job 1',
-      customer: 'Customer 1',
-      notes: 'Some notes...',
-      start_time: '2023-11-02T04:36:32.500Z',
-      end_time: '2023-11-02T04:36:32.500Z',
-      elapsed_time: 1354621
-    },
-    {
-      id: 'sadfjasasdfasd',
-      name: 'Job 2',
-      customer: 'Customer 2',
-      notes: 'Some notes...',
-      start_time: '2023-11-02T04:36:32.500Z',
-      end_time: '2023-11-02T04:36:32.500Z',
-      elapsed_time: 1354621
-    },
-    {
-      id: 'saadsfdfjasdfasdfas',
-      name: 'Job 3',
-      customer: 'Customer 3',
-      notes: 'Some notes...',
-      start_time: '2023-11-02T04:36:32.500Z',
-      end_time: '2023-11-02T04:36:32.500Z',
-      elapsed_time: 1354621
-    },
-    {
-      id: 'safasdfdfaasdfsdfasdjasadfasdf',
-      name: 'Job 4',
-      customer: 'Customer 4',
-      notes: 'Some notes...',
-      start_time: '2023-11-02T04:36:32.500Z',
-      end_time: '2023-11-02T04:36:32.500Z',
-      elapsed_time: 13546346621
-    }
-  ];
 
   const table = createTable(readable(data));
 
@@ -108,7 +62,7 @@
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs } = table.createViewModel(columns);
 </script>
 
-<div class="rounded-md border">
+<div class="rounded-md border bg-background">
   <Table.Root {...$tableAttrs}>
     <Table.Header>
       {#each $headerRows as headerRow}

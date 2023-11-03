@@ -1,25 +1,20 @@
 <script lang="ts">
   import { customers } from '$lib/mock-data';
-  import { timeEntrySchema, type TimeEntrySchema } from '$lib/schemas';
-  import { timeStops } from '$lib/stores/timeStore';
-  import type { FormOptions } from 'formsnap';
+  import { editTimeEntrySchema, type EditTimeEntrySchema } from '$lib/schemas';
   import type { SuperValidated } from 'sveltekit-superforms';
   import * as Form from '../ui/form';
   import CustomerSelect from './CustomerSelect.svelte';
-  import TimeEntryHiddenInput from './TimeEntryHiddenInput.svelte';
 
-  export let form: SuperValidated<TimeEntrySchema>;
-  export let options: FormOptions<TimeEntrySchema>;
+  export let form: SuperValidated<EditTimeEntrySchema>;
 </script>
 
 <Form.Root
   {form}
-  {options}
+  schema={editTimeEntrySchema}
   method="POST"
-  action="?/createTime"
-  schema={timeEntrySchema}
+  action="?/editTime"
+  class="grid gap-4 rounded-md border bg-background p-8"
   let:config
-  class="grid gap-4"
   debug={true}
 >
   <Form.Field {config} name="name">
@@ -33,22 +28,14 @@
     <Form.Item class="flex flex-col">
       <Form.Label>Customer</Form.Label>
       <CustomerSelect {setValue} {value} {customers} />
-      <Form.Validation />
     </Form.Item>
   </Form.Field>
   <Form.Field {config} name="notes">
     <Form.Item class="flex flex-col">
       <Form.Label>Notes</Form.Label>
       <Form.Textarea class="resize-y" />
-      <Form.Description>Markdown support coming soon...</Form.Description>
       <Form.Validation />
     </Form.Item>
   </Form.Field>
-  <Form.Field {config} name="start_time">
-    <TimeEntryHiddenInput />
-    <Form.Validation />
-  </Form.Field>
-  <Form.Button class="transition-all duration-200 ease-in-out" disabled={$timeStops.length < 1}>
-    Submit
-  </Form.Button>
+  <Form.Button class="transition-all duration-200 ease-in-out">Submit</Form.Button>
 </Form.Root>
