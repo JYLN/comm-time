@@ -3,6 +3,7 @@ import moment from 'moment';
 import { cubicOut } from 'svelte/easing';
 import type { TransitionConfig } from 'svelte/transition';
 import { twMerge } from 'tailwind-merge';
+import type { CustomersResponse } from '../backend-types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -69,3 +70,17 @@ export const humanize = (num: number): string => {
 
   return hours > 1 ? `${hours}h ${minutes}m ${seconds}s` : `${minutes}m ${seconds}s`;
 };
+
+export const convertCustomerData = (customersArr: CustomersResponse[]) => {
+  return customersArr
+    .map((customer) => ({
+      label: customer.name,
+      value: customer.id
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
+};
+
+export type CustomerData = {
+  label: string;
+  value: string;
+}[];

@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { customers } from '$lib/mock-data';
   import { editTimeEntrySchema, type EditTimeEntrySchema } from '$lib/schemas';
+  import type { CustomerData } from '$lib/utils';
   import type { SuperValidated } from 'sveltekit-superforms';
   import * as Form from '../ui/form';
   import CustomerSelect from './CustomerSelect.svelte';
 
   export let form: SuperValidated<EditTimeEntrySchema>;
+  export let customers: CustomerData;
 </script>
 
 <Form.Root

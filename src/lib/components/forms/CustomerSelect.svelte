@@ -1,6 +1,5 @@
 <script lang="ts">
-  import type { CustomersArr } from '$lib/mock-data';
-  import { cn } from '$lib/utils';
+  import { cn, type CustomerData } from '$lib/utils';
   import { Check, ChevronsUpDown } from 'lucide-svelte';
   import { tick } from 'svelte';
   import { Button } from '../ui/button';
@@ -10,7 +9,7 @@
 
   export let setValue: (arg: string) => void;
   export let value: string;
-  export let customers: CustomersArr;
+  export let customers: CustomerData;
 
   let open = false;
 

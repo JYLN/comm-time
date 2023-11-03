@@ -12,7 +12,7 @@
     timerState,
     timeStops
   } from '$lib/stores/timeStore.js';
-  import { cn } from '$lib/utils.js';
+  import { cn, convertCustomerData } from '$lib/utils.js';
   import type { FormOptions } from 'formsnap';
   import { Pause, Play, TimerReset } from 'lucide-svelte';
 
@@ -98,7 +98,11 @@
         <Separator />
       </Card.Header>
       <Card.Content>
-        <TimeEntryForm form={data.form} {options} />
+        <TimeEntryForm
+          form={data.form}
+          {options}
+          customers={convertCustomerData(data.customerData)}
+        />
       </Card.Content>
     </Card.Root>
   </div>

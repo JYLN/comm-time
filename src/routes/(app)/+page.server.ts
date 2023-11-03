@@ -2,9 +2,12 @@ import { timeEntrySchema } from '$lib/schemas';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 
-export async function load() {
+export async function load({ locals }) {
+  const customers = await locals.pb?.collection('customers').getFullList();
+
   return {
-    form: superValidate(timeEntrySchema)
+    form: superValidate(timeEntrySchema),
+    customerData: customers
   };
 }
 
