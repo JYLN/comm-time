@@ -1,6 +1,13 @@
 import { customers, type Customers } from '$lib/mock-data';
 import { z } from 'zod';
 
+export const loginFormSchema = z.object({
+  email: z.string().email('Email must be a valid email.'),
+  password: z.string().min(1, 'Password is required.')
+});
+
+export const LoginFormSchema = typeof loginFormSchema;
+
 export const timeEntrySchema = z.object({
   name: z.string().min(5, { message: 'Name must be longer than 5 characters.' }),
   customer: z.enum(customers.map((f) => f.value) as [Customers, ...Customers[]], {

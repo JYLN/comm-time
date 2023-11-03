@@ -69,7 +69,7 @@
         </DropdownMenu.Group>
         <DropdownMenu.Separator />
         <DropdownMenu.Group>
-          <DropdownMenu.Item>Log out</DropdownMenu.Item>
+          <DropdownMenu.Item href="/logout">Log out</DropdownMenu.Item>
         </DropdownMenu.Group>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
