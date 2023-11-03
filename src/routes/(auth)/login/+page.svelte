@@ -5,7 +5,9 @@
   export let data;
 </script>
 
-<main class="mx-auto flex h-screen w-1/4 items-center justify-center bg-background">
+<main
+  class="mx-auto flex h-screen w-3/4 items-center justify-center bg-background lg:w-1/2 xl:w-1/4"
+>
   <Form.Root
     form={data.form}
     schema={loginFormSchema}
