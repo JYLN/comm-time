@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { page } from '$app/stores';
+  import { getAvatarInitials } from '$lib/utils';
   import { AlignLeft, FolderClock, History, Moon, Sun } from 'lucide-svelte';
   import { mode, toggleMode } from 'mode-watcher';
   import * as Avatar from './avatar';
@@ -42,15 +44,15 @@
       <DropdownMenu.Trigger asChild let:builder>
         <Button variant="ghost" class="relative h-9 w-9 rounded-full px-0" builders={[builder]}>
           <Avatar.Root class="h-9 w-9">
-            <Avatar.Fallback>JB</Avatar.Fallback>
+            <Avatar.Fallback>{getAvatarInitials($page.data.user.name)}</Avatar.Fallback>
           </Avatar.Root>
         </Button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content class="w-56">
         <DropdownMenu.Label>
           <div class="space-y-1">
-            <p class="text-sm font-bold leading-none">Jaylen Baxter</p>
-            <p class="text-xs leading-none text-muted-foreground">you@example.com</p>
+            <p class="text-sm font-bold leading-none">{$page.data.user.name}</p>
+            <p class="text-xs leading-none text-muted-foreground">{$page.data.user.email}</p>
           </div>
         </DropdownMenu.Label>
         <DropdownMenu.Separator />

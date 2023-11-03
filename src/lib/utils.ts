@@ -84,3 +84,7 @@ export type CustomerData = {
   label: string;
   value: string;
 }[];
+
+export const getAvatarInitials = (name: string) => {
+  return name.match(/(\b\S)?/g)?.join('');
+};
