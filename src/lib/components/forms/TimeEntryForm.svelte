@@ -17,6 +17,7 @@
   {form}
   {options}
   method="POST"
+  enctype="multipart/form-data"
   action="?/createTime"
   schema={timeEntrySchema}
   let:config

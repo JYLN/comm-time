@@ -44,7 +44,7 @@
       <Command.Group>
         {#each customers as customer}
           <Command.Item
-            value={customer.value}
+            value={customer.label}
             onSelect={() => {
               setValue(customer.value);
               closeAndFocusTrigger(ids.trigger);
