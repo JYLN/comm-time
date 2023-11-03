@@ -32,6 +32,8 @@ function createTimeStops() {
 
 export const timeStops = createTimeStops();
 
+export type TimeStops = typeof timeStops;
+
 export const elaspedTime = derived(timeStops, ($timeStops) =>
   $timeStops.reduce((total, string, index, arr) => {
     function calculateElapsedTime(start: string, end: string): number {

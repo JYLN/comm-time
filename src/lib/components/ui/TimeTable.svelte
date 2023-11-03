@@ -1,9 +1,11 @@
 <script lang="ts">
   import * as Table from '$lib/components/ui/table';
+  import type { DeleteTimeEntrySchema } from '$lib/schemas';
   import { humanize } from '$lib/utils';
   import moment from 'moment';
   import { Render, Subscribe, createRender, createTable } from 'svelte-headless-table';
   import { readable } from 'svelte/store';
+  import type { SuperValidated } from 'sveltekit-superforms';
   import TimeTableActions from './TimeTableActions.svelte';
 
   type TimeEntry = {
@@ -16,6 +18,7 @@
     elapsed_time: number;
   };
 
+  export let form: SuperValidated<DeleteTimeEntrySchema>;
   export let data: TimeEntry[] = [
     {
       id: 'sadfjas',
@@ -95,7 +98,8 @@
           name: value.name,
           customer: value.customer,
           notes: value.notes,
-          elapsed_time: value.elapsed_time
+          elapsed_time: value.elapsed_time,
+          form
         });
       }
     })

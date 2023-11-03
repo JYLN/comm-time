@@ -16,3 +16,9 @@ export const timeEntrySchema = z.object({
 });
 
 export type TimeEntrySchema = typeof timeEntrySchema;
+
+export const deleteTimeEntrySchema = z.object({
+  id: z.string().min(1)
+});
+
+export type DeleteTimeEntrySchema = typeof deleteTimeEntrySchema;
