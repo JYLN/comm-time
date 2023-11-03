@@ -49,7 +49,6 @@
     onSubmit: ({ formData }) => {
       if ($timerState === TIMERSTATE.RUNNING) {
         pauseTimer();
-        console.log($timeStops);
       }
 
       formData.set('end_time', $timeStops[$timeStops.length - 1]);
@@ -59,7 +58,6 @@
       switch (result.type) {
         case 'success':
         case 'redirect':
-          console.log('SUCCESS');
           resetTimer();
           break;
       }
