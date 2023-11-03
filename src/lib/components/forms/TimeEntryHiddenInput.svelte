@@ -1,14 +1,13 @@
 <script lang="ts">
+  import { timeStops } from '$lib/stores/timeStore';
   import { getFormField } from 'formsnap';
-  import { writable } from 'svelte/store';
 
-  export let store = writable([]);
   export let id: string = '';
 
   const { setValue, actions, name } = getFormField();
 
   $: if (name === 'start_time') {
-    setValue($store[0]);
+    setValue($timeStops[0]);
   } else if (name === 'id') {
     setValue(id);
   }

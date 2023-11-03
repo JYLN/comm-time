@@ -11,7 +11,7 @@
   import * as Command from '../ui/command';
   import * as Form from '../ui/form';
   import * as Popover from '../ui/popover';
-  import TimeEntryHiddenInput from '../ui/TimeEntryHiddenInput.svelte';
+  import TimeEntryHiddenInput from './TimeEntryHiddenInput.svelte';
 
   export let form: SuperValidated<TimeEntrySchema>;
   export let options: FormOptions<TimeEntrySchema>;
@@ -97,7 +97,7 @@
     </Form.Item>
   </Form.Field>
   <Form.Field {config} name="start_time">
-    <TimeEntryHiddenInput store={timeStops} />
+    <TimeEntryHiddenInput />
     <Form.Validation />
   </Form.Field>
   <Form.Button class="transition-all duration-200 ease-in-out" disabled={$timeStops.length < 1}>

@@ -3,12 +3,12 @@
   import { humanize } from '$lib/utils';
   import { MoreHorizontal, Pencil, ScrollText, Share, Trash2 } from 'lucide-svelte';
   import type { SuperValidated } from 'sveltekit-superforms';
+  import TimeEntryHiddenInput from '../forms/TimeEntryHiddenInput.svelte';
   import * as AlertDialog from '../ui/alert-dialog';
   import * as Dialog from '../ui/dialog';
   import * as DropdownMenu from '../ui/dropdown-menu';
   import * as Form from '../ui/form';
   import { Button } from './button';
-  import TimeEntryHiddenInput from './TimeEntryHiddenInput.svelte';
 
   export let id: string;
   export let name: string;
