@@ -23,8 +23,6 @@ export const actions: Actions = {
 
     const createTimeForm = await superValidate(formData, timeEntrySchema);
 
-    console.log('Submitted: ', createTimeForm);
-
     if (!createTimeForm.valid) {
       return fail(400, {
         form: createTimeForm

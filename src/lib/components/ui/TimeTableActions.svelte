@@ -85,6 +85,7 @@
           onResult: ({ result }) => {
             switch (result.type) {
               case 'success':
+              case 'redirect':
                 deleteDialogOpen = false;
                 break;
             }
