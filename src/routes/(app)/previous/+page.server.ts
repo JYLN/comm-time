@@ -12,8 +12,6 @@ export async function load({ locals }) {
     customer: customers?.find((customer) => customer.id === entry.customer)?.name
   }));
 
-  console.log(timeEntries);
-
   return {
     tableData: timeEntries,
     form: superValidate(deleteTimeEntrySchema)

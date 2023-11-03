@@ -29,6 +29,7 @@
     <Form.Item class="flex flex-col">
       <Form.Label>Customer</Form.Label>
       <CustomerSelect {setValue} {value} {customers} />
+      <Form.Validation />
     </Form.Item>
   </Form.Field>
   <Form.Field {config} name="notes">

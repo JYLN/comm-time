@@ -1,37 +1,54 @@
-import { timeEntries } from '$lib/mock-data';
 import { editTimeEntrySchema } from '$lib/schemas/index.js';
-import { error, fail, redirect, type Actions } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
+import { serialize } from 'object-to-formdata';
+import { ClientResponseError } from 'pocketbase';
 import { superValidate } from 'sveltekit-superforms/server';
+import type { CustomersResponse } from '../../../../../backend-types.js';
 
 export async function load({ locals, params }) {
   try {
-    const customers = await locals.pb?.collection('customers').getFullList();
-    const timeEntry = timeEntries.find((entry) => entry.id === params.id);
-    const foundCustomer = customers?.find((customer) => customer.label === timeEntry?.customer);
-    const returnObj = {
-      name: timeEntry?.name,
-      customer: foundCustomer?.value,
-      notes: timeEntry?.notes
-    };
-    const form = superValidate(returnObj, editTimeEntrySchema);
+    const timeEntry = await locals.pb?.collection('time_entries').getOne(params.id);
 
-    return { timeEntry, form, customerData: customers };
+    if (timeEntry) {
+      const customers = (await locals.pb
+        ?.collection('customers')
+        .getFullList()) as CustomersResponse[];
+
+      const returnObj = {
+        name: timeEntry.name,
+        customer: timeEntry.customer,
+        notes: timeEntry.notes || ''
+      };
+
+      const form = superValidate(returnObj, editTimeEntrySchema);
+
+      return { timeEntry, form, customerData: customers };
+    }
   } catch (err) {
-    console.log(err);
-    throw error(404, `${err}`);
+    if (err instanceof ClientResponseError) {
+      console.error(err);
+      throw error(err.status, err.message);
+    }
   }
 }
 
-export const actions: Actions = {
-  editTime: async ({ request }) => {
+export const actions = {
+  editTime: async ({ request, locals, params }) => {
     const editTimeForm = await superValidate(request, editTimeEntrySchema);
-
-    console.log('Submitted: ', editTimeForm);
 
     if (!editTimeForm.valid) {
       return fail(400, {
         form: editTimeForm
       });
+    }
+
+    try {
+      await locals.pb?.collection('time_entries').update(params.id, serialize(editTimeForm.data));
+    } catch (err) {
+      if (err instanceof ClientResponseError) {
+        console.error(err);
+        throw error(err.status, err.message);
+      }
     }
 
     throw redirect(303, '/previous');
