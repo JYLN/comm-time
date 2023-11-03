@@ -1,9 +1,19 @@
-import { timeEntries } from '$lib/mock-data';
 import { deleteTimeEntrySchema } from '$lib/schemas';
-import { fail, type Actions } from '@sveltejs/kit';
+import { error, fail, redirect, type Actions } from '@sveltejs/kit';
+import { ClientResponseError } from 'pocketbase';
 import { superValidate } from 'sveltekit-superforms/server';
 
-export async function load() {
+export async function load({ locals }) {
+  let timeEntries = await locals.pb?.collection('time_entries').getFullList();
+  const customers = await locals.pb?.collection('customers').getFullList();
+
+  timeEntries = timeEntries?.map((entry) => ({
+    ...entry,
+    customer: customers?.find((customer) => customer.id === entry.customer)?.name
+  }));
+
+  console.log(timeEntries);
+
   return {
     tableData: timeEntries,
     form: superValidate(deleteTimeEntrySchema)
@@ -11,7 +21,7 @@ export async function load() {
 }
 
 export const actions: Actions = {
-  deleteTimeEntry: async ({ request }) => {
+  deleteTimeEntry: async ({ request, locals }) => {
     const deleteTimeForm = await superValidate(request, deleteTimeEntrySchema);
 
     if (!deleteTimeForm.valid) {
@@ -20,6 +30,15 @@ export const actions: Actions = {
       });
     }
 
-    return { form: deleteTimeForm };
+    try {
+      await locals.pb?.collection('time_entries').delete(deleteTimeForm.data.id);
+    } catch (err) {
+      if (err instanceof ClientResponseError) {
+        console.error(err);
+        throw error(err.status, err.message);
+      }
+    }
+
+    throw redirect(303, '/previous');
   }
 };

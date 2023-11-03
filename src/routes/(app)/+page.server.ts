@@ -36,7 +36,7 @@ export const actions: Actions = {
     } catch (err) {
       if (err instanceof ClientResponseError) {
         console.error(err);
-        throw error(err.status, { message: err.message });
+        throw error(err.status, err.message);
       }
     }
 

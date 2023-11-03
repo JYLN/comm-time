@@ -85,7 +85,6 @@
           onResult: ({ result }) => {
             switch (result.type) {
               case 'success':
-              case 'redirect':
                 deleteDialogOpen = false;
                 break;
             }
@@ -94,7 +93,6 @@
         let:config
         action="?/deleteTimeEntry"
         method="POST"
-        debug={true}
       >
         <Form.Field {config} name="id">
           <Form.Item hidden>
