@@ -72,13 +72,15 @@ export const humanize = (num: number): string => {
   return hours > 1 ? `${hours}h ${minutes}m ${seconds}s` : `${minutes}m ${seconds}s`;
 };
 
-export const convertCustomerData = (customersArr: CustomersResponse[]) => {
+export const convertCustomerData = (customersArr: CustomersResponse[] | undefined) => {
   return customersArr
-    .map((customer) => ({
-      label: customer.name,
-      value: customer.id
-    }))
-    .sort((a, b) => a.label.localeCompare(b.label));
+    ? customersArr
+        .map((customer) => ({
+          label: customer.name,
+          value: customer.id
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label))
+    : [];
 };
 
 export type CustomerData = {

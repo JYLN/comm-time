@@ -6,7 +6,7 @@
   import CustomerSelect from './CustomerSelect.svelte';
 
   export let form: SuperValidated<EditTimeEntrySchema>;
-  export let customers: CustomerData;
+  export let customers: CustomerData | undefined;
 </script>
 
 <Form.Root

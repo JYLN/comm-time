@@ -9,21 +9,19 @@ export async function load({ locals, params }) {
   try {
     const timeEntry = await locals.pb?.collection('time_entries').getOne(params.id);
 
-    if (timeEntry) {
-      const customers = (await locals.pb
-        ?.collection('customers')
-        .getFullList()) as CustomersResponse[];
+    const customers = (await locals.pb
+      ?.collection('customers')
+      .getFullList()) as CustomersResponse[];
 
-      const returnObj = {
-        name: timeEntry.name,
-        customer: timeEntry.customer,
-        notes: timeEntry.notes || ''
-      };
+    const returnObj = {
+      name: timeEntry?.name,
+      customer: timeEntry?.customer,
+      notes: timeEntry?.notes || ''
+    };
 
-      const form = superValidate(returnObj, editTimeEntrySchema);
+    const form = superValidate(returnObj, editTimeEntrySchema);
 
-      return { timeEntry, form, customerData: customers };
-    }
+    return { timeEntry, form, customerData: customers };
   } catch (err) {
     if (err instanceof ClientResponseError) {
       console.error(err);

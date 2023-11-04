@@ -5,9 +5,9 @@
   export let data;
 </script>
 
-{#if data.form}
-  <main class="container mx-auto">
-    <h2 class="heading-1">Edit - {data.timeEntry?.name}</h2>
+<main class="container mx-auto">
+  <h2 class="heading-1">Edit - {data.timeEntry?.name}</h2>
+  {#if data.form}
     <EditTimeEntryForm form={data.form} customers={convertCustomerData(data.customerData)} />
-  </main>
-{/if}
+  {/if}
+</main>

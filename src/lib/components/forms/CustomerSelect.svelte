@@ -9,7 +9,7 @@
 
   export let setValue: (arg: string) => void;
   export let value: string;
-  export let customers: CustomerData;
+  export let customers: CustomerData | undefined;
 
   let open = false;
 
@@ -32,7 +32,7 @@
         type="button"
         class={cn('justify-between', !value && 'text-muted-foreground')}
       >
-        {customers.find((f) => f.value === value)?.label ?? 'Select customer'}
+        {customers?.find((f) => f.value === value)?.label ?? 'Select customer'}
         <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
       </Button>
     </Form.Control>
@@ -42,18 +42,20 @@
       <Command.Input autofocus placeholder="Search customer..." />
       <Command.Empty>No customer found.</Command.Empty>
       <Command.Group>
-        {#each customers as customer}
-          <Command.Item
-            value={customer.label}
-            onSelect={() => {
-              setValue(customer.value);
-              closeAndFocusTrigger(ids.trigger);
-            }}
-          >
-            <Check class={cn('mr-2 h-4 w-4', customer.value !== value && 'text-transparent')} />
-            {customer.label}
-          </Command.Item>
-        {/each}
+        {#if customers}
+          {#each customers as customer}
+            <Command.Item
+              value={customer.label}
+              onSelect={() => {
+                setValue(customer.value);
+                closeAndFocusTrigger(ids.trigger);
+              }}
+            >
+              <Check class={cn('mr-2 h-4 w-4', customer.value !== value && 'text-transparent')} />
+              {customer.label}
+            </Command.Item>
+          {/each}
+        {/if}
       </Command.Group>
     </Command.Root>
   </Popover.Content>
