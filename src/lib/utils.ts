@@ -1,3 +1,4 @@
+import { PUBLIC_LOCAL_POCKETBASE } from '$env/static/public';
 import { clsx, type ClassValue } from 'clsx';
 import moment from 'moment';
 import { cubicOut } from 'svelte/easing';
@@ -87,4 +88,13 @@ export type CustomerData = {
 
 export const getAvatarInitials = (name: string) => {
   return name.match(/(\b\S)?/g)?.join('');
+};
+
+export const getAvatarImageUrl = (
+  collectionId: string,
+  recordId: string,
+  fileName: string,
+  size = '0x0'
+) => {
+  return `${PUBLIC_LOCAL_POCKETBASE}/api/files/${collectionId}/${recordId}/${fileName}?thumb=${size}`;
 };
