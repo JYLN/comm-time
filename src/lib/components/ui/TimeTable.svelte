@@ -1,18 +1,24 @@
 <script lang="ts">
-  import * as Table from '$lib/components/ui/table';
   import type { TimeEntries } from '$lib/mock-data';
   import type { DeleteTimeEntrySchema } from '$lib/schemas';
   import { humanize } from '$lib/utils';
   import moment from 'moment';
   import { Render, Subscribe, createRender, createTable } from 'svelte-headless-table';
+  import { addTableFilter } from 'svelte-headless-table/plugins';
   import { readable } from 'svelte/store';
   import type { SuperValidated } from 'sveltekit-superforms';
   import TimeTableActions from './TimeTableActions.svelte';
+  import { Input } from './input';
+  import * as Table from './table';
 
   export let data: TimeEntries;
   export let form: SuperValidated<DeleteTimeEntrySchema>;
 
-  const table = createTable(readable(data));
+  const table = createTable(readable(data), {
+    filter: addTableFilter({
+      fn: ({ filterValue, value }) => value.toLowerCase().includes(filterValue.toLowerCase())
+    })
+  });
 
   const columns = table.createColumns([
     table.column({
@@ -40,7 +46,12 @@
     table.column({
       accessor: 'elapsed_time',
       header: 'Total Time',
-      cell: ({ value }) => humanize(value)
+      cell: ({ value }) => humanize(value),
+      plugins: {
+        filter: {
+          exclude: true
+        }
+      }
     }),
     table.column({
       accessor: (item) => item,
@@ -55,14 +66,29 @@
           elapsed_time: value.elapsed_time,
           form
         });
+      },
+      plugins: {
+        filter: {
+          exclude: true
+        }
       }
     })
   ]);
 
-  const { headerRows, pageRows, tableAttrs, tableBodyAttrs } = table.createViewModel(columns);
+  const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
+    table.createViewModel(columns);
+  const { filterValue } = pluginStates.filter;
 </script>
 
-<div class="rounded-md border bg-background">
+<div class="mb-6">
+  <Input
+    class="max-w-md"
+    placeholder="Search by job name, customer, start date, or end date..."
+    type="text"
+    bind:value={$filterValue}
+  />
+</div>
+<div class="grid gap-6 rounded-md border bg-background">
   <Table.Root {...$tableAttrs}>
     <Table.Header>
       {#each $headerRows as headerRow}
