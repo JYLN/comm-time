@@ -2,6 +2,8 @@
   import TimeTable from '$lib/components/ui/TimeTable.svelte';
 
   export let data;
+
+  $: console.log(data.tableData);
 </script>
 
 <main class="container mx-auto">

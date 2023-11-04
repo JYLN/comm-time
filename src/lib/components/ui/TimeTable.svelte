@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { TimeEntries } from '$lib/mock-data';
   import type { DeleteTimeEntrySchema } from '$lib/schemas';
   import { humanize } from '$lib/utils';
   import moment from 'moment';
@@ -7,11 +6,20 @@
   import { addTableFilter } from 'svelte-headless-table/plugins';
   import { readable } from 'svelte/store';
   import type { SuperValidated } from 'sveltekit-superforms';
+  import type {
+    CustomersResponse,
+    TimeEntriesResponse,
+    UsersResponse
+  } from '../../../backend-types';
   import TimeTableActions from './TimeTableActions.svelte';
+  import UserAvatarStack from './UserAvatarStack.svelte';
   import { Input } from './input';
   import * as Table from './table';
 
-  export let data: TimeEntries;
+  export let data: TimeEntriesResponse<{
+    customer: CustomersResponse;
+    shared_users: UsersResponse[];
+  }>[];
   export let form: SuperValidated<DeleteTimeEntrySchema>;
 
   const table = createTable(readable(data), {
@@ -26,7 +34,7 @@
       header: 'Name'
     }),
     table.column({
-      accessor: 'customer',
+      accessor: (item) => item.expand?.customer.name,
       header: 'Customer'
     }),
     table.column({
@@ -51,6 +59,15 @@
         filter: {
           exclude: true
         }
+      }
+    }),
+    table.column({
+      accessor: (item) => item.expand?.shared_users,
+      header: '',
+      cell: ({ value }) => {
+        return createRender(UserAvatarStack, {
+          users: value
+        });
       }
     }),
     table.column({

@@ -1,9 +1,8 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { getAvatarInitials } from '$lib/utils';
   import { AlignLeft, FolderClock, History, Moon, Sun } from 'lucide-svelte';
   import { mode, toggleMode } from 'mode-watcher';
-  import * as Avatar from './avatar';
+  import UserAvatar from './UserAvatar.svelte';
   import { Button } from './button';
   import * as DropdownMenu from './dropdown-menu';
 </script>
@@ -43,9 +42,7 @@
     <DropdownMenu.Root positioning={{ placement: 'bottom-end' }}>
       <DropdownMenu.Trigger asChild let:builder>
         <Button variant="ghost" class="relative h-9 w-9 rounded-full px-0" builders={[builder]}>
-          <Avatar.Root class="h-9 w-9">
-            <Avatar.Fallback>{getAvatarInitials($page.data.user.name)}</Avatar.Fallback>
-          </Avatar.Root>
+          <UserAvatar class="h-9 w-9" />
         </Button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content class="w-56">

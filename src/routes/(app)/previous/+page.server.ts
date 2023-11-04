@@ -4,13 +4,9 @@ import { ClientResponseError } from 'pocketbase';
 import { superValidate } from 'sveltekit-superforms/server';
 
 export async function load({ locals }) {
-  let timeEntries = await locals.pb?.collection('time_entries').getFullList();
-  const customers = await locals.pb?.collection('customers').getFullList();
-
-  timeEntries = timeEntries?.map((entry) => ({
-    ...entry,
-    customer: customers?.find((customer) => customer.id === entry.customer)?.name
-  }));
+  const timeEntries = await locals.pb
+    ?.collection('time_entries')
+    .getFullList({ expand: 'customer,shared_users' });
 
   return {
     tableData: timeEntries,
