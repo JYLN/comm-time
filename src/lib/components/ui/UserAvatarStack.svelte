@@ -6,7 +6,7 @@
   import * as Avatar from './avatar';
   import * as Tooltip from './tooltip';
 
-  export let users: UsersResponse[] | undefined = undefined;
+  export let users: UsersResponse[] | undefined;
 
   let stack_class = 'h-9 w-9 border-2 dark:border-background';
   const displayedUsers = users?.slice(0, 3);
@@ -26,7 +26,7 @@
     displayedUsers?.length == 3 && '-space-x-3'
   )}
 >
-  {#if users && displayedUsers && nonDisplayedUsers}
+  {#if displayedUsers}
     {#each displayedUsers as user (user.id)}
       <Tooltip.Root {...toolTipProps}>
         <Tooltip.Trigger>
@@ -38,7 +38,7 @@
       </Tooltip.Root>
     {/each}
 
-    {#if nonDisplayedUsers.length > 0}
+    {#if nonDisplayedUsers && nonDisplayedUsers.length > 0}
       <Tooltip.Root {...toolTipProps}>
         <Tooltip.Trigger>
           <Avatar.Root class={stack_class}>

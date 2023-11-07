@@ -20,7 +20,7 @@
     customer: CustomersResponse;
     shared_users: UsersResponse[];
   }>[];
-  export let form: SuperValidated<DeleteTimeEntrySchema>;
+  export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema>;
 
   const table = createTable(readable(data), {
     filter: addTableFilter({
@@ -62,12 +62,17 @@
       }
     }),
     table.column({
-      accessor: (item) => item.expand?.shared_users,
+      accessor: ({ expand }) => expand?.shared_users,
       header: '',
       cell: ({ value }) => {
         return createRender(UserAvatarStack, {
           users: value
         });
+      },
+      plugins: {
+        filter: {
+          exclude: true
+        }
       }
     }),
     table.column({
@@ -81,7 +86,7 @@
           customer: value.customer,
           notes: value.notes,
           elapsed_time: value.elapsed_time,
-          form
+          deleteTimeForm
         });
       },
       plugins: {
@@ -95,6 +100,8 @@
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
     table.createViewModel(columns);
   const { filterValue } = pluginStates.filter;
+
+  $: console.log(data);
 </script>
 
 <div class="mb-6">

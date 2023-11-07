@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cn, type CustomerData } from '$lib/utils';
+  import { cn, type SelectData } from '$lib/utils';
   import { Check, ChevronsUpDown } from 'lucide-svelte';
   import { tick } from 'svelte';
   import { Button } from '../ui/button';
@@ -9,7 +9,7 @@
 
   export let setValue: (arg: string) => void;
   export let value: string;
-  export let customers: CustomerData | undefined;
+  export let customers: SelectData | undefined;
 
   let open = false;
 

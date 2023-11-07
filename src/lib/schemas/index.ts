@@ -34,3 +34,18 @@ export const deleteTimeEntrySchema = z.object({
 });
 
 export type DeleteTimeEntrySchema = typeof deleteTimeEntrySchema;
+
+export const sharedUsersSchema = z.object({
+  shared_users: z
+    .array(z.string())
+    .refine(
+      (arr: string[]) => {
+        const unique = new Set(arr);
+        return unique.size === arr.length;
+      },
+      { message: 'You must select unique users to share this time entry with.' }
+    )
+    .optional()
+});
+
+export type SharedUsersSchema = typeof sharedUsersSchema;

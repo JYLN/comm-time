@@ -2,13 +2,11 @@
   import TimeTable from '$lib/components/ui/TimeTable.svelte';
 
   export let data;
-
-  $: console.log(data.tableData);
 </script>
 
 <main class="container mx-auto">
   {#if data.tableData.length > 0}
-    <TimeTable form={data.form} data={data.tableData} />
+    <TimeTable deleteTimeForm={data.deleteTimeForm} data={data.tableData} />
   {:else}
     <h2 class="heading-1">
       No time entries created.

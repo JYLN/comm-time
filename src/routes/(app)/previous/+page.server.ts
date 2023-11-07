@@ -10,7 +10,7 @@ export async function load({ locals }) {
 
   return {
     tableData: timeEntries,
-    form: superValidate(deleteTimeEntrySchema)
+    deleteTimeForm: superValidate(deleteTimeEntrySchema)
   };
 }
 
@@ -20,7 +20,7 @@ export const actions: Actions = {
 
     if (!deleteTimeForm.valid) {
       return fail(400, {
-        form: deleteTimeForm
+        deleteTimeForm
       });
     }
 

@@ -15,10 +15,11 @@
   export let customer: string;
   export let notes: string;
   export let elapsed_time: number;
-  export let form: SuperValidated<DeleteTimeEntrySchema>;
+  export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema>;
 
   let noteDialogOpen = false;
   let deleteDialogOpen = false;
+  let shareDialogOpen = false;
 </script>
 
 <DropdownMenu.Root positioning={{ placement: 'bottom-end' }}>
@@ -41,7 +42,7 @@
         <Pencil class="mr-2 h-4 w-4" />
         Edit time entry
       </DropdownMenu.Item>
-      <DropdownMenu.Item>
+      <DropdownMenu.Item href="/previous/{id}/share">
         <Share class="mr-2 h-4 w-4" />
         Share time entry
       </DropdownMenu.Item>
@@ -79,7 +80,7 @@
     <AlertDialog.Footer>
       <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
       <Form.Root
-        {form}
+        form={deleteTimeForm}
         schema={deleteTimeEntrySchema}
         options={{
           onResult: ({ result }) => {

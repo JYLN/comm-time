@@ -1,7 +1,7 @@
 <script lang="ts">
   import { timeEntrySchema, type TimeEntrySchema } from '$lib/schemas';
   import { timeStops } from '$lib/stores/timeStore';
-  import type { CustomerData } from '$lib/utils';
+  import type { SelectData } from '$lib/utils';
   import type { FormOptions } from 'formsnap';
   import type { SuperValidated } from 'sveltekit-superforms';
   import * as Form from '../ui/form';
@@ -10,7 +10,7 @@
 
   export let form: SuperValidated<TimeEntrySchema>;
   export let options: FormOptions<TimeEntrySchema>;
-  export let customers: CustomerData;
+  export let customers: SelectData;
 </script>
 
 <Form.Root

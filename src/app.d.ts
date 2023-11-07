@@ -1,5 +1,6 @@
 import type { Admin, Record } from 'pocketbase';
 import PocketBase from 'pocketbase';
+import type { UsersResponse } from './backend-types';
 
 type PocketBaseUser = Admin | Record | null;
 
@@ -12,7 +13,9 @@ declare global {
       pb?: PocketBase;
       user?: PocketBaseUser;
     }
-    // interface PageData {}
+    interface PageData {
+      fullUsersList?: UsersResponse[] | undefined;
+    }
     // interface Platform {}
   }
 }
