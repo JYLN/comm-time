@@ -37,7 +37,7 @@
       header: 'Name'
     }),
     table.column({
-      accessor: (item) => item.expand?.customer.name,
+      accessor: ({ expand }) => expand?.customer.name,
       header: 'Customer'
     }),
     table.column({
@@ -86,7 +86,7 @@
         return createRender(TimeTableActions, {
           id: value.id,
           name: value.name,
-          customer: value.customer,
+          customer: value.expand?.customer.name,
           notes: value.notes,
           elapsed_time: value.elapsed_time,
           deleteTimeForm
