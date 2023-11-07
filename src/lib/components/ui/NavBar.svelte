@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { AlignLeft, FolderClock, History, Moon, Sun } from 'lucide-svelte';
+  import { AlignLeft, FolderClock, History, Home, Moon, Sun } from 'lucide-svelte';
   import { mode, toggleMode } from 'mode-watcher';
   import UserAvatar from './UserAvatar.svelte';
   import { Button } from './button';
@@ -9,6 +9,9 @@
 
 <nav>
   <div class="buttons">
+    <Button variant="link" href="/">
+      <Home class="mr-2 h-4 w-4" />
+    </Button>
     <Button variant="link" href="/previous">
       <History class="mr-2 h-4 w-4" />
       Previous Time

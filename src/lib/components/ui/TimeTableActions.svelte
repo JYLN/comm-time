@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from '$app/stores';
   import { deleteTimeEntrySchema, type DeleteTimeEntrySchema } from '$lib/schemas';
   import { humanize } from '$lib/utils';
   import { MoreHorizontal, Pencil, ScrollText, Share, Trash2 } from 'lucide-svelte';
@@ -15,11 +16,10 @@
   export let customer: string;
   export let notes: string;
   export let elapsed_time: number;
-  export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema>;
+  export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema> | undefined = undefined;
 
   let noteDialogOpen = false;
   let deleteDialogOpen = false;
-  let shareDialogOpen = false;
 </script>
 
 <DropdownMenu.Root positioning={{ placement: 'bottom-end' }}>
@@ -36,24 +36,26 @@
         Show notes
       </DropdownMenu.Item>
     </DropdownMenu.Group>
-    <DropdownMenu.Separator />
-    <DropdownMenu.Group>
-      <DropdownMenu.Item href="/previous/{id}/edit">
-        <Pencil class="mr-2 h-4 w-4" />
-        Edit time entry
-      </DropdownMenu.Item>
-      <DropdownMenu.Item href="/previous/{id}/share">
-        <Share class="mr-2 h-4 w-4" />
-        Share time entry
-      </DropdownMenu.Item>
-    </DropdownMenu.Group>
-    <DropdownMenu.Separator />
-    <DropdownMenu.Group>
-      <DropdownMenu.Item class="text-destructive" on:click={() => (deleteDialogOpen = true)}>
-        <Trash2 class="mr-2 h-4 w-4" />
-        Delete time entry
-      </DropdownMenu.Item>
-    </DropdownMenu.Group>
+    {#if $page.url.pathname === '/previous'}
+      <DropdownMenu.Separator />
+      <DropdownMenu.Group>
+        <DropdownMenu.Item href="/previous/{id}/edit">
+          <Pencil class="mr-2 h-4 w-4" />
+          Edit time entry
+        </DropdownMenu.Item>
+        <DropdownMenu.Item href="/previous/{id}/share">
+          <Share class="mr-2 h-4 w-4" />
+          Share time entry
+        </DropdownMenu.Item>
+      </DropdownMenu.Group>
+      <DropdownMenu.Separator />
+      <DropdownMenu.Group>
+        <DropdownMenu.Item class="text-destructive" on:click={() => (deleteDialogOpen = true)}>
+          <Trash2 class="mr-2 h-4 w-4" />
+          Delete time entry
+        </DropdownMenu.Item>
+      </DropdownMenu.Group>
+    {/if}
   </DropdownMenu.Content>
 </DropdownMenu.Root>
 
@@ -79,32 +81,34 @@
     </AlertDialog.Header>
     <AlertDialog.Footer>
       <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-      <Form.Root
-        form={deleteTimeForm}
-        schema={deleteTimeEntrySchema}
-        options={{
-          onResult: ({ result }) => {
-            switch (result.type) {
-              case 'success':
-              case 'redirect':
-                deleteDialogOpen = false;
-                break;
+      {#if deleteTimeForm}
+        <Form.Root
+          form={deleteTimeForm}
+          schema={deleteTimeEntrySchema}
+          options={{
+            onResult: ({ result }) => {
+              switch (result.type) {
+                case 'success':
+                case 'redirect':
+                  deleteDialogOpen = false;
+                  break;
+              }
             }
-          }
-        }}
-        let:config
-        action="?/deleteTimeEntry"
-        method="POST"
-      >
-        <Form.Field {config} name="id">
-          <Form.Item hidden>
-            <TimeEntryHiddenInput {id} />
-          </Form.Item>
-        </Form.Field>
-        <AlertDialog.Action asChild>
-          <Form.Button>Delete</Form.Button>
-        </AlertDialog.Action>
-      </Form.Root>
+          }}
+          let:config
+          action="?/deleteTimeEntry"
+          method="POST"
+        >
+          <Form.Field {config} name="id">
+            <Form.Item hidden>
+              <TimeEntryHiddenInput {id} />
+            </Form.Item>
+          </Form.Field>
+          <AlertDialog.Action asChild>
+            <Form.Button>Delete</Form.Button>
+          </AlertDialog.Action>
+        </Form.Root>
+      {/if}
     </AlertDialog.Footer>
   </AlertDialog.Content>
 </AlertDialog.Root>

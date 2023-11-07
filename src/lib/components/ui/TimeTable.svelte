@@ -2,6 +2,7 @@
   import type { DeleteTimeEntrySchema } from '$lib/schemas';
   import { humanize } from '$lib/utils';
   import moment from 'moment';
+  import type { RecordModel } from 'pocketbase';
   import { Render, Subscribe, createRender, createTable } from 'svelte-headless-table';
   import { addTableFilter } from 'svelte-headless-table/plugins';
   import { readable } from 'svelte/store';
@@ -16,11 +17,13 @@
   import { Input } from './input';
   import * as Table from './table';
 
-  export let data: TimeEntriesResponse<{
-    customer: CustomersResponse;
-    shared_users: UsersResponse[];
-  }>[];
-  export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema>;
+  export let data:
+    | TimeEntriesResponse<{
+        customer: CustomersResponse;
+        shared_users: UsersResponse[];
+      }>[]
+    | RecordModel[];
+  export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema> | undefined = undefined;
 
   const table = createTable(readable(data), {
     filter: addTableFilter({
@@ -100,8 +103,6 @@
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
     table.createViewModel(columns);
   const { filterValue } = pluginStates.filter;
-
-  $: console.log(data);
 </script>
 
 <div class="mb-6">
