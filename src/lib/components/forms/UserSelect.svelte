@@ -47,10 +47,12 @@
       >
         <span class="flex items-center">
           {#if selectedUser}
-            <UserAvatar
-              class="mr-2 h-7 w-7"
-              user={$page.data.fullUsersList?.find((user) => user.id === selectedUser?.value)}
-            />
+            {#key selectedUser}
+              <UserAvatar
+                class="mr-2 h-7 w-7"
+                user={$page.data.fullUsersList?.find((user) => user.id === selectedUser?.value)}
+              />
+            {/key}
           {/if}
           {selectedUser?.label ?? 'Select a user...'}
         </span>
