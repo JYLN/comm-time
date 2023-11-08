@@ -16,6 +16,8 @@
 </script>
 
 <Avatar.Root class={className}>
-  <Avatar.Image src={getAvatarImageUrl(collectionId, id, avatar)} />
+  {#if avatar}
+    <Avatar.Image src={getAvatarImageUrl(collectionId, id, avatar)} />
+  {/if}
   <Avatar.Fallback>{getAvatarInitials(name)}</Avatar.Fallback>
 </Avatar.Root>
