@@ -18,11 +18,12 @@
   export let elapsed_time: number;
   export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema> | undefined = undefined;
 
+  let actionsOpen = false;
   let noteDialogOpen = false;
   let deleteDialogOpen = false;
 </script>
 
-<DropdownMenu.Root positioning={{ placement: 'bottom-end' }}>
+<DropdownMenu.Root positioning={{ placement: 'bottom-end' }} bind:open={actionsOpen}>
   <DropdownMenu.Trigger asChild let:builder>
     <Button variant="ghost" builders={[builder]} size="icon" class="relative h-8 w-8 p-0">
       <MoreHorizontal class="h-4 w-4" />
@@ -43,7 +44,7 @@
           <Pencil class="mr-2 h-4 w-4" />
           Edit time entry
         </DropdownMenu.Item>
-        <DropdownMenu.Item href="/previous/{id}/share">
+        <DropdownMenu.Item on:click={() => (actionsOpen = false)} href="/previous/{id}/share">
           <Share class="mr-2 h-4 w-4" />
           Share time entry
         </DropdownMenu.Item>
