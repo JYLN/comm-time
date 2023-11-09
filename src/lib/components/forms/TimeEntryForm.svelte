@@ -42,7 +42,18 @@
     <Form.Item class="flex flex-col">
       <Form.Label>Notes</Form.Label>
       <Form.Textarea class="resize-y" />
-      <Form.Description>Markdown support coming soon...</Form.Description>
+      <Form.Description>
+        Markdown syntax is supported. Click
+        <a
+          href="https://www.markdownguide.org/cheat-sheet/"
+          target="_blank"
+          rel="noreferrer"
+          class="underline hover:text-muted-foreground/80"
+        >
+          here
+        </a>
+        for more info.
+      </Form.Description>
       <Form.Validation />
     </Form.Item>
   </Form.Field>
