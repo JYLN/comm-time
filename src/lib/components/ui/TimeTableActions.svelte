@@ -10,6 +10,7 @@
   import * as DropdownMenu from '../ui/dropdown-menu';
   import * as Form from '../ui/form';
   import { Button } from './button';
+  import NotesDisplay from './NotesDisplay.svelte';
 
   export let id: string;
   export let name: string;
@@ -61,14 +62,12 @@
 </DropdownMenu.Root>
 
 <Dialog.Root bind:open={noteDialogOpen}>
-  <Dialog.Content>
+  <Dialog.Content class="max-w-3xl">
     <Dialog.Header>
       <Dialog.Title>{name}</Dialog.Title>
       <Dialog.Description>{customer} • {humanize(elapsed_time)}</Dialog.Description>
     </Dialog.Header>
-    <div class="prose prose-zinc dark:prose-invert">
-      {notes}
-    </div>
+    <NotesDisplay {notes} />
   </Dialog.Content>
 </Dialog.Root>
 
