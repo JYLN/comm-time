@@ -6,7 +6,11 @@ import { superValidate } from 'sveltekit-superforms/server';
 export async function load({ locals }) {
   const timeEntries = await locals.pb
     ?.collection('time_entries')
-    .getFullList({ filter: `author = "${locals.user.id}"`, expand: 'customer,shared_users' });
+    .getFullList({
+      filter: `author = "${locals.user.id}"`,
+      sort: '-start_time',
+      expand: 'customer,shared_users'
+    });
 
   return {
     tableData: timeEntries,
