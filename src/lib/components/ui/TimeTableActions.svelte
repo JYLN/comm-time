@@ -41,7 +41,7 @@
     {#if $page.url.pathname === '/previous'}
       <DropdownMenu.Separator />
       <DropdownMenu.Group>
-        <DropdownMenu.Item href="/previous/{id}/edit">
+        <DropdownMenu.Item on:click={() => (actionsOpen = false)} href="/previous/{id}/edit">
           <Pencil class="mr-2 h-4 w-4" />
           Edit time entry
         </DropdownMenu.Item>
