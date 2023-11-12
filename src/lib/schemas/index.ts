@@ -9,7 +9,9 @@ export const LoginFormSchema = typeof loginFormSchema;
 
 export const timeEntrySchema = z.object({
   name: z.string().min(5, { message: 'Name must be longer than 5 characters.' }),
-  customer: z.string({ required_error: 'Please select a valid customer.' }),
+  customer: z
+    .string({ required_error: 'Please select a valid customer.' })
+    .min(1, 'Please select a valid customer.'),
   notes: z.string().optional(),
   start_time: z
     .string({ required_error: 'You must start the timer before submitting a time entry.' })

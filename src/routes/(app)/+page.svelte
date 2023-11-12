@@ -1,16 +1,17 @@
 <script lang="ts">
   import TimeEntryForm from '$lib/components/forms/TimeEntryForm.svelte';
+  import { addToast } from '$lib/components/ui/Toaster.svelte';
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import { Separator } from '$lib/components/ui/separator';
   import { timeEntrySchema, type TimeEntrySchema } from '$lib/schemas';
   import {
+    TIMERSTATE,
     elaspedTime,
     time,
     timeDisplay,
-    TIMERSTATE,
-    timerState,
-    timeStops
+    timeStops,
+    timerState
   } from '$lib/stores/timeStore.js';
   import { cn, convertSelectData } from '$lib/utils.js';
   import type { FormOptions } from 'formsnap';
@@ -58,9 +59,14 @@
       switch (result.type) {
         case 'success':
         case 'redirect':
+          addToast({ data: { title: 'Success!', description: 'The time entry was created!' } });
           resetTimer();
           break;
       }
+    },
+    onError: ({ result }) => {
+      console.log(result);
+      addToast({ data: { title: 'Error!', description: result.error.message } });
     }
   };
 </script>
