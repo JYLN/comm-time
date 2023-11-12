@@ -6,6 +6,7 @@
   import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
   import * as Form from '../ui/form';
   import { Label } from '../ui/label';
+  import { addToast } from '../ui/Toaster.svelte';
   import UserSelect from './UserSelect.svelte';
 
   export let formData: SuperValidated<SharedUsersSchema>;
@@ -20,8 +21,15 @@
         case 'success':
         case 'redirect':
           open = false;
+          addToast({
+            data: { title: 'Success!', description: 'Shared users updated successfully!' }
+          });
           break;
       }
+    },
+    onError: ({ result }) => {
+      console.log(result);
+      addToast({ data: { title: 'Error!', description: result.error.message } });
     }
   });
 
