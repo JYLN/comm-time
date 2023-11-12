@@ -36,6 +36,7 @@ export const deleteTimeEntrySchema = z.object({
 export type DeleteTimeEntrySchema = typeof deleteTimeEntrySchema;
 
 export const sharedUsersSchema = z.object({
+  id: z.string().min(1),
   shared_users: z
     .array(z.string())
     .refine(
