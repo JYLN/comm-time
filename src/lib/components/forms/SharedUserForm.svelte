@@ -10,14 +10,25 @@
 
   export let formData: SuperValidated<SharedUsersSchema>;
   export let users: string[] | undefined;
+  export let id: string;
+  export let open: boolean;
 
   const { form, enhance, errors } = superForm(formData, {
-    validators: sharedUsersSchema
+    validators: sharedUsersSchema,
+    onResult: ({ result }) => {
+      switch (result.type) {
+        case 'success':
+        case 'redirect':
+          open = false;
+          break;
+      }
+    }
   });
 
   $: formErrors = $errors.shared_users?._errors ? true : false;
 
   onMount(() => {
+    $form.id = id;
     $form.shared_users = users;
   });
 
@@ -39,6 +50,7 @@
 </script>
 
 <form method="POST" action="?/shareTimeEntry" use:enhance class="grid gap-4">
+  <input type="hidden" name="id" bind:value={$form.id} />
   <Label for="users">Users</Label>
   {#if $form.shared_users}
     {#each $form.shared_users as _, i}

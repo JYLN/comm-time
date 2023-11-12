@@ -4,6 +4,7 @@
   import { humanize } from '$lib/utils';
   import { MoreHorizontal, Pencil, ScrollText, Share, Trash2 } from 'lucide-svelte';
   import type { SuperValidated } from 'sveltekit-superforms';
+  import SharedUserForm from '../forms/SharedUserForm.svelte';
   import TimeEntryHiddenInput from '../forms/TimeEntryHiddenInput.svelte';
   import * as AlertDialog from '../ui/alert-dialog';
   import * as Dialog from '../ui/dialog';
@@ -17,11 +18,13 @@
   export let customer: string;
   export let notes: string;
   export let elapsed_time: number;
+  export let shared_users: string[];
   export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema> | undefined = undefined;
 
   let actionsOpen = false;
   let noteDialogOpen = false;
   let deleteDialogOpen = false;
+  let shareDialogOpen = false;
 </script>
 
 <DropdownMenu.Root positioning={{ placement: 'bottom-end' }} bind:open={actionsOpen}>
@@ -45,7 +48,7 @@
           <Pencil class="mr-2 h-4 w-4" />
           Edit time entry
         </DropdownMenu.Item>
-        <DropdownMenu.Item on:click={() => (actionsOpen = false)} href="/previous/{id}/share">
+        <DropdownMenu.Item on:click={() => (shareDialogOpen = true)}>
           <Share class="mr-2 h-4 w-4" />
           Share time entry
         </DropdownMenu.Item>
@@ -112,3 +115,21 @@
     </AlertDialog.Footer>
   </AlertDialog.Content>
 </AlertDialog.Root>
+
+<Dialog.Root bind:open={shareDialogOpen}>
+  <Dialog.Content>
+    <Dialog.Header>
+      <Dialog.Title>Share - {name}</Dialog.Title>
+      <Dialog.Description>
+        Sharing a time entry allows other users to view the name, customer, time, and notes of a
+        time entry. Select users below to share this time entry. Click 'Submit' when finished.
+      </Dialog.Description>
+    </Dialog.Header>
+    <SharedUserForm
+      formData={$page.data.sharedUsersForm}
+      users={shared_users}
+      {id}
+      bind:open={shareDialogOpen}
+    />
+  </Dialog.Content>
+</Dialog.Root>

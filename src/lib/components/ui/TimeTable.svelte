@@ -5,7 +5,7 @@
   import type { RecordModel } from 'pocketbase';
   import { Render, Subscribe, createRender, createTable } from 'svelte-headless-table';
   import { addTableFilter } from 'svelte-headless-table/plugins';
-  import { readable } from 'svelte/store';
+  import { writable } from 'svelte/store';
   import type { SuperValidated } from 'sveltekit-superforms';
   import type {
     CustomersResponse,
@@ -25,7 +25,9 @@
     | RecordModel[];
   export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema> | undefined = undefined;
 
-  const table = createTable(readable(data), {
+  const tableData = writable(data);
+
+  const table = createTable(tableData, {
     filter: addTableFilter({
       fn: ({ filterValue, value }) => value.toLowerCase().includes(filterValue.toLowerCase())
     })
@@ -89,6 +91,7 @@
           customer: value.expand?.customer.name,
           notes: value.notes,
           elapsed_time: value.elapsed_time,
+          shared_users: value.shared_users,
           deleteTimeForm
         });
       },
