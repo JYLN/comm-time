@@ -1,16 +1,19 @@
 <script lang="ts">
   import { editTimeEntrySchema, type EditTimeEntrySchema } from '$lib/schemas';
   import type { SelectData } from '$lib/utils';
+  import type { FormOptions } from 'formsnap';
   import type { SuperValidated } from 'sveltekit-superforms';
   import * as Form from '../ui/form';
   import CustomerSelect from './CustomerSelect.svelte';
 
   export let form: SuperValidated<EditTimeEntrySchema>;
   export let customers: SelectData | undefined;
+  export let options: FormOptions<EditTimeEntrySchema>;
 </script>
 
 <Form.Root
   {form}
+  {options}
   schema={editTimeEntrySchema}
   method="POST"
   action="?/editTime"
