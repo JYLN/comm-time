@@ -16,7 +16,7 @@
           addToast({
             data: {
               title: 'Success!',
-              description: 'This time entry has been successfully edited!'
+              description: 'Time entry edited successfully!'
             }
           });
           break;

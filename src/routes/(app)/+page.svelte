@@ -59,8 +59,10 @@
       switch (result.type) {
         case 'success':
         case 'redirect':
-          addToast({ data: { title: 'Success!', description: 'The time entry was created!' } });
           resetTimer();
+          addToast({
+            data: { title: 'Success!', description: 'Time entry created successfully!' }
+          });
           break;
       }
     },
