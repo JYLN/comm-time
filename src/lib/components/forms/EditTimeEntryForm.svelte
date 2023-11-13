@@ -19,7 +19,6 @@
   action="?/editTime"
   class="grid gap-4 rounded-md border bg-background p-8"
   let:config
-  debug={true}
 >
   <Form.Field {config} name="name">
     <Form.Item class="flex flex-col">

@@ -3,7 +3,6 @@
   import { onMount, tick } from 'svelte';
   import type { SuperValidated } from 'sveltekit-superforms';
   import { superForm } from 'sveltekit-superforms/client';
-  import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
   import * as Form from '../ui/form';
   import { Label } from '../ui/label';
   import { addToast } from '../ui/Toaster.svelte';
@@ -79,5 +78,3 @@
 
   <Form.Button disabled={formErrors}>Submit</Form.Button>
 </form>
-
-<SuperDebug data={$form} />

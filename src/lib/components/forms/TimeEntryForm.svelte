@@ -22,7 +22,6 @@
   schema={timeEntrySchema}
   let:config
   class="grid gap-4"
-  debug={true}
 >
   <Form.Field {config} name="name">
     <Form.Item class="flex flex-col">
