@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { addToast } from '$lib/components/ui/Toaster.svelte';
   import * as Form from '$lib/components/ui/form';
   import { loginFormSchema } from '$lib/schemas/index.js';
 
@@ -15,6 +16,19 @@
     action="?/login"
     let:config
     class="grid w-full gap-4 rounded-md border p-10"
+    options={{
+      onResult: ({ result }) => {
+        switch (result.type) {
+          case 'success':
+          case 'redirect':
+            addToast({ data: { title: 'Success!', description: 'Successfully logged in.' } });
+            break;
+        }
+      },
+      onError: ({ result }) => {
+        addToast({ data: { title: 'Error!', description: result.error.message } });
+      }
+    }}
   >
     <Form.Field {config} name="email">
       <Form.Item class="flex flex-col">
