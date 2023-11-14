@@ -1,7 +1,7 @@
 import { loginFormSchema } from '$lib/schemas';
-import { fail, redirect, type Actions } from '@sveltejs/kit';
+import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import { ClientResponseError } from 'pocketbase';
-import { setError, superValidate } from 'sveltekit-superforms/server';
+import { superValidate } from 'sveltekit-superforms/server';
 
 export async function load({ locals }) {
   if (locals.user) throw redirect(303, '/');
@@ -28,7 +28,7 @@ export const actions: Actions = {
     } catch (err) {
       if (err instanceof ClientResponseError) {
         console.error(err);
-        return setError(loginForm, 'password', 'Invalid credentials.');
+        throw error(err.status, err.message);
       }
     }
 
