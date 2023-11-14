@@ -41,7 +41,7 @@
   },
   "type": "module",
   "dependencies": {
-    "bits-ui": "^0.9.4",
+    "bits-ui": "^0.9.7",
     "clsx": "^2.0.0",
     "cmdk-sv": "^0.0.6",
     "dompurify": "^3.0.6",
