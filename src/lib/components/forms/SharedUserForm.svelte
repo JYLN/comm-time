@@ -3,6 +3,7 @@
   import { onMount, tick } from 'svelte';
   import type { SuperValidated } from 'sveltekit-superforms';
   import { superForm } from 'sveltekit-superforms/client';
+  import * as Form from '../ui/form';
   import { Label } from '../ui/label';
   import { addToast } from '../ui/Toaster.svelte';
   import UserSelect from './UserSelect.svelte';
@@ -71,9 +72,9 @@
 
   <UserSelect onChange={addUser} />
 
-  <!-- {#if $errors.shared_users?._errors}
+  {#if $errors.shared_users?._errors}
     <p class="text-sm text-destructive">{$errors.shared_users._errors}</p>
   {/if}
 
-  <Form.Button disabled={formErrors}>Submit</Form.Button> -->
+  <Form.Button disabled={formErrors}>Submit</Form.Button>
 </form>
