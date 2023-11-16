@@ -32,6 +32,24 @@
     })
   });
 
+  const excludeFromFilter = {
+    plugins: {
+      filter: {
+        exclude: true
+      }
+    }
+  };
+
+  const convertFilterValue = {
+    plugins: {
+      filter: {
+        getFilterValue: (result: any) => {
+          return humanize(result);
+        }
+      }
+    }
+  };
+
   const columns = table.createColumns([
     table.column({
       accessor: 'name',
@@ -46,24 +64,22 @@
       header: 'Start Time',
       cell: ({ value }) => {
         return humanize(value);
-      }
+      },
+      ...convertFilterValue
     }),
     table.column({
       accessor: 'end_time',
       header: 'End Time',
       cell: ({ value }) => {
         return humanize(value);
-      }
+      },
+      ...convertFilterValue
     }),
     table.column({
       accessor: 'elapsed_time',
       header: 'Total Time',
       cell: ({ value }) => humanize(value),
-      plugins: {
-        filter: {
-          exclude: true
-        }
-      }
+      ...excludeFromFilter
     }),
     table.column({
       accessor: ({ expand }) => expand?.shared_users,
@@ -73,11 +89,7 @@
           users: value
         });
       },
-      plugins: {
-        filter: {
-          exclude: true
-        }
-      }
+      ...excludeFromFilter
     }),
     table.column({
       accessor: (item) => item,
@@ -97,11 +109,7 @@
           deleteTimeForm
         });
       },
-      plugins: {
-        filter: {
-          exclude: true
-        }
-      }
+      ...excludeFromFilter
     })
   ]);
 
