@@ -1,6 +1,6 @@
 <script lang="ts">
   import { cn } from '$lib/utils';
-  import type { Props as TriggerProps } from 'bits-ui/dist/bits/tooltip';
+  import type { Tooltip as TooltipPrimitive } from 'bits-ui';
   import type { UsersResponse } from '../../../backend-types';
   import UserAvatar from './UserAvatar.svelte';
   import * as Avatar from './avatar';
@@ -11,11 +11,12 @@
   let stack_class = 'h-9 w-9 border-2 dark:border-background';
   const displayedUsers = users?.slice(0, 3);
   const nonDisplayedUsers = users?.slice(3);
-  const toolTipProps: TriggerProps = {
+  const toolTipProps: TooltipPrimitive.Props = {
     positioning: { placement: 'bottom' },
     openDelay: 200,
     closeDelay: 100,
-    group: 'user'
+    group: 'user',
+    portal: null
   };
 </script>
 
