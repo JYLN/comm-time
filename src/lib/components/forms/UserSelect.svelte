@@ -35,7 +35,7 @@
   }
 </script>
 
-<Popover.Root bind:open let:ids positioning={{ placement: 'bottom-start' }} portal={null}>
+<Popover.Root bind:open let:ids positioning={{ placement: 'bottom-start' }}>
   <Popover.Trigger asChild let:builder>
     <div class="flex gap-2">
       <Button
