@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { DeleteTimeEntrySchema } from '$lib/schemas';
   import { humanize } from '$lib/utils';
-  import moment from 'moment';
   import type { RecordModel } from 'pocketbase';
   import { Render, Subscribe, createRender, createTable } from 'svelte-headless-table';
   import { addTableFilter } from 'svelte-headless-table/plugins';
@@ -46,14 +45,14 @@
       accessor: 'start_time',
       header: 'Start Time',
       cell: ({ value }) => {
-        return moment(value).format('MM/DD/YY hh:mma');
+        return humanize(value);
       }
     }),
     table.column({
       accessor: 'end_time',
       header: 'End Time',
       cell: ({ value }) => {
-        return moment(value).format('MM/DD/YY hh:mma');
+        return humanize(value);
       }
     }),
     table.column({
@@ -91,7 +90,10 @@
           customer: value.expand?.customer.name,
           notes: value.notes,
           elapsed_time: value.elapsed_time,
-          shared_users: value.shared_users,
+          shared_users: value.expand?.shared_users,
+          author: value.expand?.author,
+          start_time: value.start_time,
+          end_time: value.end_time,
           deleteTimeForm
         });
       },

@@ -7,7 +7,7 @@ export async function load({ locals }) {
   const timeEntries = await locals.pb?.collection('time_entries').getFullList({
     filter: `author = "${locals.user.id}"`,
     sort: '-start_time',
-    expand: 'customer,shared_users'
+    expand: 'customer,shared_users,author'
   });
 
   const fullUsersList = await locals.pb?.collection('users').getFullList();

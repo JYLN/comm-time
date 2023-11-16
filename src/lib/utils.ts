@@ -62,14 +62,18 @@ export const formatToString = (num: number): string => {
   return num.toString().padStart(2, '0');
 };
 
-export const humanize = (num: number): string => {
-  const duration = moment.duration(num);
+export const humanize = (value: number | string): string => {
+  if (typeof value === 'number') {
+    const duration = moment.duration(value);
 
-  const hours = duration.hours();
-  const minutes = duration.minutes();
-  const seconds = duration.seconds();
+    const hours = duration.hours();
+    const minutes = duration.minutes();
+    const seconds = duration.seconds();
 
-  return hours > 1 ? `${hours}h ${minutes}m ${seconds}s` : `${minutes}m ${seconds}s`;
+    return hours > 1 ? `${hours}h ${minutes}m ${seconds}s` : `${minutes}m ${seconds}s`;
+  }
+
+  return moment(value).format('MM/DD/YY hh:mma');
 };
 
 export const convertSelectData = (arr: CustomersResponse[] | UsersResponse[] | undefined) => {

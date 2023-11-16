@@ -4,21 +4,28 @@
   import { humanize } from '$lib/utils';
   import { MoreHorizontal, Pencil, ScrollText, Share, Trash2 } from 'lucide-svelte';
   import type { SuperValidated } from 'sveltekit-superforms';
+  import type { UsersResponse } from '../../../backend-types';
   import SharedUserForm from '../forms/SharedUserForm.svelte';
   import TimeEntryHiddenInput from '../forms/TimeEntryHiddenInput.svelte';
   import * as AlertDialog from '../ui/alert-dialog';
-  import * as Dialog from '../ui/dialog';
-  import * as DropdownMenu from '../ui/dropdown-menu';
-  import * as Form from '../ui/form';
   import { Button } from './button';
+  import * as Dialog from './dialog';
+  import * as DropdownMenu from './dropdown-menu';
+  import * as Form from './form';
   import NotesDisplay from './NotesDisplay.svelte';
+  import { Separator } from './separator';
+  import UserAvatar from './UserAvatar.svelte';
+  import UserAvatarStack from './UserAvatarStack.svelte';
 
   export let id: string;
   export let name: string;
   export let customer: string;
   export let notes: string;
   export let elapsed_time: number;
-  export let shared_users: string[];
+  export let shared_users: UsersResponse[];
+  export let author: UsersResponse;
+  export let start_time: string;
+  export let end_time: string;
   export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema> | undefined = undefined;
 
   let actionsOpen = false;
@@ -64,11 +71,54 @@
   </DropdownMenu.Content>
 </DropdownMenu.Root>
 
-<Dialog.Root bind:open={noteDialogOpen}>
+<Dialog.Root bind:open={noteDialogOpen} openFocus="[data-bits-dialog-close]">
   <Dialog.Content class="max-w-3xl">
-    <Dialog.Header>
-      <Dialog.Title>{name}</Dialog.Title>
-      <Dialog.Description>{customer} • {humanize(elapsed_time)}</Dialog.Description>
+    <Dialog.Header class="mb-3 space-y-3">
+      <Dialog.Title class="mb-1 text-4xl">{name}</Dialog.Title>
+      <Separator />
+      <Dialog.Description>
+        <div class="grid grid-flow-col grid-cols-2 grid-rows-3 gap-y-4">
+          <div class="flex items-center gap-2">
+            <div class="basis-1/3">Created by</div>
+            <div class="flex items-center gap-1">
+              <UserAvatar user={author} class="h-9 w-9 border-2 dark:border-background" />
+              {author.name}
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div class="basis-1/3">Shared with</div>
+            <div>
+              {#if shared_users}
+                <UserAvatarStack users={shared_users} />
+              {:else}
+                <p>None</p>
+              {/if}
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div class="basis-1/3">Start Time</div>
+            <div>{humanize(start_time)}</div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div class="basis-1/3">Customer</div>
+            <div>{customer}</div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div class="basis-1/3">Elapsed Time</div>
+            <div>{humanize(elapsed_time)}</div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div class="basis-1/3">End Time</div>
+            <div>{humanize(end_time)}</div>
+          </div>
+        </div>
+      </Dialog.Description>
+      <Separator />
     </Dialog.Header>
     <NotesDisplay {notes} />
   </Dialog.Content>
@@ -116,7 +166,7 @@
   </AlertDialog.Content>
 </AlertDialog.Root>
 
-<Dialog.Root bind:open={shareDialogOpen}>
+<Dialog.Root bind:open={shareDialogOpen} openFocus="[data-bits-dialog-close]">
   <Dialog.Content>
     <Dialog.Header>
       <Dialog.Title>Share - {name}</Dialog.Title>
@@ -127,7 +177,7 @@
     </Dialog.Header>
     <SharedUserForm
       formData={$page.data.sharedUsersForm}
-      users={shared_users}
+      users={shared_users.map((user) => user.id)}
       {id}
       bind:open={shareDialogOpen}
     />
