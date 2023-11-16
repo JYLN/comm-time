@@ -20,6 +20,7 @@
     | TimeEntriesResponse<{
         customer: CustomersResponse;
         shared_users: UsersResponse[];
+        author: UsersResponse;
       }>[]
     | RecordModel[];
   export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema> | undefined = undefined;
