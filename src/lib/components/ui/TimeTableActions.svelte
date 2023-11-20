@@ -1,15 +1,15 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { deleteTimeEntrySchema, type DeleteTimeEntrySchema } from '$lib/schemas';
-  import { humanize } from '$lib/utils';
   import { MoreHorizontal, Pencil, ScrollText, Share, Trash2 } from 'lucide-svelte';
   import type { SuperValidated } from 'sveltekit-superforms';
   import type { UsersResponse } from '../../../backend-types';
+  import { humanize } from '../../utils';
   import SharedUserForm from '../forms/SharedUserForm.svelte';
   import TimeEntryHiddenInput from '../forms/TimeEntryHiddenInput.svelte';
   import * as AlertDialog from '../ui/alert-dialog';
+  import * as Sheet from '../ui/sheet';
   import { Button } from './button';
-  import * as Dialog from './dialog';
   import * as DropdownMenu from './dropdown-menu';
   import * as Form from './form';
   import NotesDisplay from './NotesDisplay.svelte';
@@ -28,10 +28,10 @@
   export let end_time: string;
   export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema> | undefined = undefined;
 
-  let actionsOpen = false;
-  let noteDialogOpen = false;
-  let deleteDialogOpen = false;
-  let shareDialogOpen = false;
+  let actionsOpen: boolean = false;
+  let noteSheetOpen: boolean = false;
+  let deleteDialogOpen: boolean = false;
+  let shareSheetOpen: boolean = false;
 </script>
 
 <DropdownMenu.Root positioning={{ placement: 'bottom-end' }} bind:open={actionsOpen}>
@@ -43,7 +43,7 @@
   <DropdownMenu.Content>
     <DropdownMenu.Label>Actions</DropdownMenu.Label>
     <DropdownMenu.Group>
-      <DropdownMenu.Item on:click={() => (noteDialogOpen = true)}>
+      <DropdownMenu.Item on:click={() => (noteSheetOpen = true)}>
         <ScrollText class="mr-2 h-4 w-4" />
         Show notes
       </DropdownMenu.Item>
@@ -55,7 +55,7 @@
           <Pencil class="mr-2 h-4 w-4" />
           Edit time entry
         </DropdownMenu.Item>
-        <DropdownMenu.Item on:click={() => (shareDialogOpen = true)}>
+        <DropdownMenu.Item on:click={() => (shareSheetOpen = true)}>
           <Share class="mr-2 h-4 w-4" />
           Share time entry
         </DropdownMenu.Item>
@@ -71,23 +71,23 @@
   </DropdownMenu.Content>
 </DropdownMenu.Root>
 
-<Dialog.Root bind:open={noteDialogOpen} openFocus="[data-bits-dialog-close]">
-  <Dialog.Content class="max-w-3xl">
-    <Dialog.Header class="mb-3 space-y-3">
-      <Dialog.Title class="mb-1 text-4xl">{name}</Dialog.Title>
+<Sheet.Root bind:open={noteSheetOpen} openFocus="[data-bits-dialog-close]">
+  <Sheet.Content class="w-full sm:max-w-3xl">
+    <Sheet.Header class="mb-3 space-y-3">
+      <Sheet.Title class="mb-1 text-4xl">{name}</Sheet.Title>
       <Separator />
-      <Dialog.Description>
-        <div class="grid grid-flow-col grid-cols-2 grid-rows-3 gap-y-4">
-          <div class="flex items-center gap-2">
-            <div class="basis-1/3">Created by</div>
+      <Sheet.Description class="mb-3 space-y-3">
+        <div class="grid gap-y-4 sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-3">
+          <div class="flex items-center gap-2 text-left">
+            <div class="basis-1/4 sm:basis-1/3">Created by</div>
             <div class="flex items-center gap-1">
               <UserAvatar user={author} class="h-9 w-9 border-2 dark:border-background" />
               {author.name}
             </div>
           </div>
 
-          <div class="flex items-center gap-2">
-            <div class="basis-1/3">Shared with</div>
+          <div class="flex items-center gap-2 text-left">
+            <div class="basis-1/4 sm:basis-1/3">Shared with</div>
             <div>
               {#if shared_users}
                 <UserAvatarStack users={shared_users} />
@@ -97,32 +97,32 @@
             </div>
           </div>
 
-          <div class="flex items-center gap-2">
-            <div class="basis-1/3">Start Time</div>
+          <div class="flex items-center gap-2 text-left">
+            <div class="basis-1/4 sm:basis-1/3">Start Time</div>
             <div>{humanize(start_time)}</div>
           </div>
 
-          <div class="flex items-center gap-2">
-            <div class="basis-1/3">Customer</div>
+          <div class="flex items-center gap-2 text-left">
+            <div class="basis-1/4 sm:basis-1/3">Customer</div>
             <div>{customer}</div>
           </div>
 
-          <div class="flex items-center gap-2">
-            <div class="basis-1/3">Elapsed Time</div>
+          <div class="flex items-center gap-2 text-left">
+            <div class="basis-1/4 sm:basis-1/3">Elapsed Time</div>
             <div>{humanize(elapsed_time)}</div>
           </div>
 
-          <div class="flex items-center gap-2">
-            <div class="basis-1/3">End Time</div>
+          <div class="flex items-center gap-2 text-left">
+            <div class="basis-1/4 sm:basis-1/3">End Time</div>
             <div>{humanize(end_time)}</div>
           </div>
         </div>
-      </Dialog.Description>
+      </Sheet.Description>
       <Separator />
-    </Dialog.Header>
+    </Sheet.Header>
     <NotesDisplay {notes} />
-  </Dialog.Content>
-</Dialog.Root>
+  </Sheet.Content>
+</Sheet.Root>
 
 <AlertDialog.Root bind:open={deleteDialogOpen}>
   <AlertDialog.Content>
@@ -166,20 +166,20 @@
   </AlertDialog.Content>
 </AlertDialog.Root>
 
-<Dialog.Root bind:open={shareDialogOpen} openFocus="[data-bits-dialog-close]">
-  <Dialog.Content>
-    <Dialog.Header>
-      <Dialog.Title>Share - {name}</Dialog.Title>
-      <Dialog.Description>
+<Sheet.Root bind:open={shareSheetOpen} openFocus="[data-bits-dialog-close]">
+  <Sheet.Content class="w-full sm:max-w-xl">
+    <Sheet.Header class="mb-3">
+      <Sheet.Title>Share - {name}</Sheet.Title>
+      <Sheet.Description>
         Sharing a time entry allows other users to view the name, customer, time, and notes of a
         time entry. Select users below to share this time entry. Click 'Submit' when finished.
-      </Dialog.Description>
-    </Dialog.Header>
+      </Sheet.Description>
+    </Sheet.Header>
     <SharedUserForm
       formData={$page.data.sharedUsersForm}
       users={shared_users.map((user) => user.id)}
       {id}
-      bind:open={shareDialogOpen}
+      bind:open={shareSheetOpen}
     />
-  </Dialog.Content>
-</Dialog.Root>
+  </Sheet.Content>
+</Sheet.Root>
