@@ -3,13 +3,14 @@
   import { onMount, tick } from 'svelte';
   import type { SuperValidated } from 'sveltekit-superforms';
   import { superForm } from 'sveltekit-superforms/client';
+  import type { UsersResponse } from '../../../backend-types';
   import * as Form from '../ui/form';
   import { Label } from '../ui/label';
   import { addToast } from '../ui/Toaster.svelte';
   import UserSelect from './UserSelect.svelte';
 
   export let formData: SuperValidated<SharedUsersSchema>;
-  export let users: string[] | undefined;
+  export let users: UsersResponse[] | undefined;
   export let id: string;
   export let open: boolean;
 
@@ -36,7 +37,7 @@
 
   onMount(() => {
     $form.id = id;
-    $form.shared_users = users;
+    $form.shared_users = users?.map((user) => user.id);
   });
 
   async function addUser(newValue: string) {
