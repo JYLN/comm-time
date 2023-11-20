@@ -177,7 +177,7 @@
     </Sheet.Header>
     <SharedUserForm
       formData={$page.data.sharedUsersForm}
-      users={shared_users.map((user) => user.id)}
+      users={shared_users}
       {id}
       bind:open={shareSheetOpen}
     />
