@@ -52,3 +52,16 @@ export const sharedUsersSchema = z.object({
 });
 
 export type SharedUsersSchema = typeof sharedUsersSchema;
+
+export const adminCreateCustomerSchema = z.object({
+  name: z.string().min(1)
+});
+
+export type AdminCreateCustomerSchema = typeof adminCreateCustomerSchema;
+
+export const adminEditCustomerSchema = z.object({
+  id: z.string().min(1, 'Please select a valid customer.'),
+  new_name: z.string().min(1)
+});
+
+export type AdminEditCustomerSchema = typeof adminEditCustomerSchema;
