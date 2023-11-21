@@ -1,6 +1,7 @@
 <script lang="ts">
   import CustomerSelect from '$lib/components/forms/CustomerSelect.svelte';
   import TabCard from '$lib/components/ui/TabCard.svelte';
+  import { addToast } from '$lib/components/ui/Toaster.svelte';
   import * as Form from '$lib/components/ui/form';
   import * as Tabs from '$lib/components/ui/tabs';
   import { adminCreateCustomerSchema, adminEditCustomerSchema } from '$lib/schemas/index.js';
@@ -25,6 +26,22 @@
           schema={adminCreateCustomerSchema}
           method="POST"
           action="?/createCustomer"
+          options={{
+            onResult: ({ result }) => {
+              switch (result.type) {
+                case 'success':
+                case 'redirect':
+                  addToast({
+                    data: { title: 'Success!', description: 'Customer successfully added!' }
+                  });
+                  break;
+              }
+            },
+            onError: ({ result }) => {
+              console.log(result);
+              addToast({ data: { title: 'Error!', description: result.error.message } });
+            }
+          }}
           let:config
           class="grid gap-4"
           debug={true}
