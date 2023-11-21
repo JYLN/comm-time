@@ -14,6 +14,7 @@
   import * as Form from './form';
   import NotesDisplay from './NotesDisplay.svelte';
   import { Separator } from './separator';
+  import { addToast } from './Toaster.svelte';
   import UserAvatar from './UserAvatar.svelte';
   import UserAvatarStack from './UserAvatarStack.svelte';
 
@@ -144,8 +145,15 @@
                 case 'success':
                 case 'redirect':
                   deleteDialogOpen = false;
+                  addToast({
+                    data: { title: 'Success!', description: 'Time entry deleted successfully!' }
+                  });
                   break;
               }
+            },
+            onError: ({ result }) => {
+              console.log(result);
+              addToast({ data: { title: 'Error!', description: result.error.message } });
             }
           }}
           let:config
