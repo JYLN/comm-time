@@ -13,11 +13,12 @@
   export { className as class, user };
 
   const { collectionId, id, avatar, name } = user;
+  const initials = getAvatarInitials(name) || 'AD';
 </script>
 
 <Avatar.Root class={className}>
   {#if avatar}
     <Avatar.Image src={getAvatarImageUrl(collectionId, id, avatar)} />
   {/if}
-  <Avatar.Fallback>{getAvatarInitials(name)}</Avatar.Fallback>
+  <Avatar.Fallback>{initials}</Avatar.Fallback>
 </Avatar.Root>

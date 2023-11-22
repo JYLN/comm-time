@@ -93,7 +93,10 @@ export type SelectData = {
 }[];
 
 export const getAvatarInitials = (name: string) => {
-  return name.match(/(\b\S)?/g)?.join('');
+  if (name && typeof name === 'string') {
+    return name.match(/(\b\S)?/g)?.join('');
+  }
+  return undefined;
 };
 
 export const getAvatarImageUrl = (

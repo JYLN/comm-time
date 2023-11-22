@@ -51,7 +51,7 @@
       <DropdownMenu.Content class="w-56">
         <DropdownMenu.Label>
           <div class="space-y-1">
-            <p class="text-sm font-bold leading-none">{$page.data.user.name}</p>
+            <p class="text-sm font-bold leading-none">{$page.data.user.name ?? 'Admin'}</p>
             <p class="text-xs leading-none text-muted-foreground">{$page.data.user.email}</p>
           </div>
         </DropdownMenu.Label>

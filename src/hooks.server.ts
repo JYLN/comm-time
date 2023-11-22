@@ -8,16 +8,29 @@ export async function handle({ event, resolve }) {
 
   try {
     if (event.locals.pb.authStore.isValid) {
-      await event.locals.pb.collection('users').authRefresh();
-      event.locals.user = structuredClone(event.locals.pb.authStore.model);
+      if (!event.locals.pb.authStore.isAdmin) {
+        await event.locals.pb.collection('users').authRefresh();
+        event.locals.user = structuredClone(event.locals.pb.authStore.model);
+      } else {
+        await event.locals.pb.admins.authRefresh();
+        event.locals.user = structuredClone(event.locals.pb.authStore.model);
+      }
     }
   } catch (_) {
     event.locals.pb.authStore.clear();
     event.locals.user = null;
   }
 
-  if (!event.locals.user && event.url.pathname !== '/login') {
-    throw redirect(303, '/login');
+  if (!event.locals.user) {
+    if (event.url.pathname !== '/login') {
+      throw redirect(303, '/login');
+    }
+  } else {
+    if (event.url.pathname !== '/logout') {
+      if (event.locals.pb.authStore.isAdmin && event.url.pathname !== '/admin') {
+        throw redirect(303, '/admin');
+      }
+    }
   }
 
   const response = await resolve(event);
