@@ -41,5 +41,26 @@ export const actions: Actions = {
     }
 
     throw redirect(303, '/admin');
+  },
+  editCustomer: async ({ request, locals }) => {
+    const adminEditCustomerForm = await superValidate(request, adminEditCustomerSchema);
+
+    if (!adminEditCustomerForm.valid) {
+      return fail(400, {
+        adminEditCustomerForm
+      });
+    }
+
+    try {
+      await locals.pb
+        ?.collection('customers')
+        .update(adminEditCustomerForm.data.id, { name: adminEditCustomerForm.data.new_name });
+    } catch (err) {
+      if (err instanceof ClientResponseError) {
+        console.error(err);
+        const message = err.response.data.name.message || err.message;
+        throw error(err.status, message);
+      }
+    }
   }
 };
