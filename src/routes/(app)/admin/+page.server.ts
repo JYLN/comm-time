@@ -6,6 +6,8 @@ import { superValidate } from 'sveltekit-superforms/server';
 import type { CustomersResponse } from '../../../backend-types.js';
 
 export async function load({ locals }) {
+  if (!locals.pb?.authStore.isAdmin) throw redirect(303, '/');
+
   const adminCreateCustomerForm = superValidate(adminCreateCustomerSchema);
   const adminEditCustomerForm = superValidate(adminEditCustomerSchema);
 

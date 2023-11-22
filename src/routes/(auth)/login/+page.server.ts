@@ -22,14 +22,22 @@ export const actions: Actions = {
     }
 
     try {
+      console.log('FIRST');
       await locals.pb
         ?.collection('users')
         .authWithPassword(loginForm.data.email, loginForm.data.password);
     } catch (err) {
-      if (err instanceof ClientResponseError) {
-        console.error(err);
-        throw error(err.status, err.message);
+      try {
+        console.log('SECOND');
+        await locals.pb?.admins.authWithPassword(loginForm.data.email, loginForm.data.password);
+      } catch (err) {
+        if (err instanceof ClientResponseError) {
+          console.error(err);
+          throw error(err.status, err.message);
+        }
       }
+
+      throw redirect(303, '/admin');
     }
 
     throw redirect(303, '/');
