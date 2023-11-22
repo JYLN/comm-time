@@ -22,13 +22,11 @@ export const actions: Actions = {
     }
 
     try {
-      console.log('FIRST');
       await locals.pb
         ?.collection('users')
         .authWithPassword(loginForm.data.email, loginForm.data.password);
     } catch (err) {
       try {
-        console.log('SECOND');
         await locals.pb?.admins.authWithPassword(loginForm.data.email, loginForm.data.password);
       } catch (err) {
         if (err instanceof ClientResponseError) {
