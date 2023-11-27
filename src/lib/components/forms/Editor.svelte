@@ -1,43 +1,34 @@
 <script lang="ts">
   import { getFormField } from 'formsnap';
   import { Bold, Italic, Link, Underline } from 'lucide-svelte';
-  import { Textarea } from '../ui/textarea';
-  import * as ToggleGroup from '../ui/toggle-group';
+  import { Button } from '../ui/button';
 
-  const { attrStore, setValue } = getFormField();
+  const { attrStore, actions, value: editorValue } = getFormField();
 
-  let editorValue: string;
-  let actionValue: string[];
+  let textAreaRef: HTMLTextAreaElement;
 </script>
 
 <div class="flex flex-col gap-2">
-  <Textarea
-    class="resize-y"
+  <textarea
+    class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+    bind:this={textAreaRef}
+    bind:value={$editorValue}
+    use:actions.textarea
     {...$attrStore}
-    on:input={() => setValue(editorValue)}
-    bind:value={editorValue}
   />
 
-  <ToggleGroup.Root
-    type="multiple"
-    class="w-max justify-start rounded-md border px-2 py-1"
-    bind:value={actionValue}
-  >
-    <!-- Bold -->
-    <ToggleGroup.Item value="">
+  <div class="w-max rounded-md border px-2 py-1">
+    <Button variant="ghost">
       <Bold class="h-4 w-4" />
-    </ToggleGroup.Item>
-    <!-- Underline -->
-    <ToggleGroup.Item value="">
+    </Button>
+    <Button variant="ghost">
       <Underline class="h-4 w-4" />
-    </ToggleGroup.Item>
-    <!-- Italic -->
-    <ToggleGroup.Item value="">
+    </Button>
+    <Button variant="ghost">
       <Italic class="h-4 w-4" />
-    </ToggleGroup.Item>
-    <!-- Link -->
-    <ToggleGroup.Item value="">
+    </Button>
+    <Button variant="ghost">
       <Link class="h-4 w-4" />
-    </ToggleGroup.Item>
-  </ToggleGroup.Root>
+    </Button>
+  </div>
 </div>
