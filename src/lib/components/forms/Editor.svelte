@@ -1,11 +1,19 @@
 <script lang="ts">
+  import type { Tooltip as TooltipPrimitive } from 'bits-ui';
   import { getFormField } from 'formsnap';
   import { Bold, Italic, Link, Underline } from 'lucide-svelte';
   import { Button } from '../ui/button';
+  import * as Tooltip from '../ui/tooltip';
 
   const { attrStore, actions, value: editorValue } = getFormField();
 
   let textAreaRef: HTMLTextAreaElement;
+  const toolTipProps: TooltipPrimitive.Props = {
+    positioning: { placement: 'bottom' },
+    openDelay: 200,
+    closeDelay: 100,
+    group: 'actions'
+  };
 </script>
 
 <div class="flex flex-col gap-2">
@@ -18,17 +26,40 @@
   />
 
   <div class="w-max rounded-md border px-2 py-1">
-    <Button variant="ghost">
-      <Bold class="h-4 w-4" />
-    </Button>
-    <Button variant="ghost">
-      <Underline class="h-4 w-4" />
-    </Button>
-    <Button variant="ghost">
-      <Italic class="h-4 w-4" />
-    </Button>
-    <Button variant="ghost">
-      <Link class="h-4 w-4" />
-    </Button>
+    <Tooltip.Root {...toolTipProps}>
+      <Tooltip.Trigger asChild let:builder>
+        <Button builders={[builder]} variant="ghost">
+          <Bold class="h-4 w-4" />
+        </Button>
+      </Tooltip.Trigger>
+      <Tooltip.Content>Bold</Tooltip.Content>
+    </Tooltip.Root>
+
+    <Tooltip.Root {...toolTipProps}>
+      <Tooltip.Trigger asChild let:builder>
+        <Button builders={[builder]} variant="ghost">
+          <Underline class="h-4 w-4" />
+        </Button>
+      </Tooltip.Trigger>
+      <Tooltip.Content>Underline</Tooltip.Content>
+    </Tooltip.Root>
+
+    <Tooltip.Root {...toolTipProps}>
+      <Tooltip.Trigger asChild let:builder>
+        <Button builders={[builder]} variant="ghost">
+          <Italic class="h-4 w-4" />
+        </Button>
+      </Tooltip.Trigger>
+      <Tooltip.Content>Italic</Tooltip.Content>
+    </Tooltip.Root>
+
+    <Tooltip.Root {...toolTipProps}>
+      <Tooltip.Trigger asChild let:builder>
+        <Button builders={[builder]} variant="ghost">
+          <Link class="h-4 w-4" />
+        </Button>
+      </Tooltip.Trigger>
+      <Tooltip.Content>Link</Tooltip.Content>
+    </Tooltip.Root>
   </div>
 </div>
