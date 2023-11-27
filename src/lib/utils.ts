@@ -6,6 +6,7 @@ import type { TransitionConfig } from 'svelte/transition';
 import { twMerge } from 'tailwind-merge';
 import type { CustomersResponse, UsersResponse } from '../backend-types';
 
+// ? shadcn-svelte Utils
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -58,10 +59,12 @@ export const flyAndScale = (
   };
 };
 
+// ? Time Utils
 export const formatToString = (num: number): string => {
   return num.toString().padStart(2, '0');
 };
 
+// ? Time Table Utils
 export const humanize = (value: number | string): string => {
   if (typeof value === 'number') {
     const duration = moment.duration(value);
@@ -92,6 +95,7 @@ export type SelectData = {
   value: string;
 }[];
 
+// ? Avatar Utils
 export const getAvatarInitials = (name: string) => {
   if (name && typeof name === 'string') {
     return name.match(/(\b\S)?/g)?.join('');
@@ -106,4 +110,38 @@ export const getAvatarImageUrl = (
   size = '0x0'
 ) => {
   return `${PUBLIC_LOCAL_POCKETBASE}/api/files/${collectionId}/${recordId}/${fileName}?thumb=${size}`;
+};
+
+// ? Editor Utils
+export const boldCommand = (textarea: HTMLTextAreaElement) => {
+  // Get selection within textarea
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+
+  if (start || start === 0) {
+    let selected = textarea.value.substring(start, end);
+    let newEnd = end;
+
+    // Check if selection is already bold
+    // (regex matches strings with the full syntax, not just one set of '**')
+    if (selected.match(/\*\*.*?\*\*/)) {
+      // If already bold, unbold and calculate cursor position based on end of selection
+      selected = selected.replace(/\*\*/g, '');
+      newEnd = newEnd - 4;
+    } else {
+      // If not already bold, bold and calculate cursor position based on end of selection
+      selected = `**${selected}**`;
+      newEnd = newEnd + 2;
+    }
+
+    // Set new value of entire text area string
+    textarea.value =
+      textarea.value.substring(0, start) +
+      selected +
+      textarea.value.substring(end, textarea.value.length);
+
+    // Put focus back on textarea so that cursor can be set
+    textarea.focus();
+    textarea.setSelectionRange(newEnd, newEnd);
+  }
 };
