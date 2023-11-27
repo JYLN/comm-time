@@ -6,6 +6,7 @@
   import type { SuperValidated } from 'sveltekit-superforms';
   import * as Form from '../ui/form';
   import CustomerSelect from './CustomerSelect.svelte';
+  import Editor from './Editor.svelte';
   import TimeEntryHiddenInput from './TimeEntryHiddenInput.svelte';
 
   export let form: SuperValidated<TimeEntrySchema>;
@@ -22,6 +23,7 @@
   schema={timeEntrySchema}
   let:config
   class="grid gap-4"
+  debug={true}
 >
   <Form.Field {config} name="name">
     <Form.Item class="flex flex-col">
@@ -40,7 +42,7 @@
   <Form.Field {config} name="notes">
     <Form.Item class="flex flex-col">
       <Form.Label>Notes</Form.Label>
-      <Form.Textarea class="resize-y" />
+      <Editor />
       <Form.Description>
         Markdown syntax is supported. Click
         <a
