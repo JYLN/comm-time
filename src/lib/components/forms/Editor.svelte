@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { boldCommand } from '$lib/utils';
+  import { formatCommand } from '$lib/utils';
   import type { Tooltip as TooltipPrimitive } from 'bits-ui';
   import { getFormField } from 'formsnap';
-  import { Bold, Italic, Link, Underline } from 'lucide-svelte';
+  import { Bold, Italic, Link } from 'lucide-svelte';
   import { Button } from '../ui/button';
   import * as Tooltip from '../ui/tooltip';
 
@@ -15,6 +15,14 @@
     closeDelay: 100,
     group: 'actions'
   };
+
+  function handleBold() {
+    formatCommand(textAreaRef, 'bold');
+  }
+
+  function handleItalic() {
+    formatCommand(textAreaRef, 'italic');
+  }
 </script>
 
 <div class="flex flex-col gap-2">
@@ -29,7 +37,7 @@
   <div class="w-max rounded-md border px-2 py-1">
     <Tooltip.Root {...toolTipProps}>
       <Tooltip.Trigger asChild let:builder>
-        <Button builders={[builder]} variant="ghost" on:click={() => boldCommand(textAreaRef)}>
+        <Button builders={[builder]} variant="ghost" on:click={handleBold}>
           <Bold class="h-4 w-4" />
         </Button>
       </Tooltip.Trigger>
@@ -38,16 +46,7 @@
 
     <Tooltip.Root {...toolTipProps}>
       <Tooltip.Trigger asChild let:builder>
-        <Button builders={[builder]} variant="ghost">
-          <Underline class="h-4 w-4" />
-        </Button>
-      </Tooltip.Trigger>
-      <Tooltip.Content>Underline</Tooltip.Content>
-    </Tooltip.Root>
-
-    <Tooltip.Root {...toolTipProps}>
-      <Tooltip.Trigger asChild let:builder>
-        <Button builders={[builder]} variant="ghost">
+        <Button builders={[builder]} variant="ghost" on:click={handleItalic}>
           <Italic class="h-4 w-4" />
         </Button>
       </Tooltip.Trigger>

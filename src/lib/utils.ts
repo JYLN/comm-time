@@ -113,25 +113,41 @@ export const getAvatarImageUrl = (
 };
 
 // ? Editor Utils
-export const boldCommand = (textarea: HTMLTextAreaElement) => {
-  // Get selection within textarea
+export const formatCommand = (
+  textarea: HTMLTextAreaElement,
+  command: 'bold' | 'italic' | 'link'
+) => {
+  // Get selection values
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
 
   if (start || start === 0) {
+    // Get selection in a new string
     let selected = textarea.value.substring(start, end);
+    // Set newEnd for calculating end of the selection after formatting
     let newEnd = end;
 
-    // Check if selection is already bold
-    // (regex matches strings with the full syntax, not just one set of '**')
-    if (selected.match(/\*\*.*?\*\*/)) {
-      // If already bold, unbold and calculate cursor position based on end of selection
-      selected = selected.replace(/\*\*/g, '');
-      newEnd = newEnd - 4;
-    } else {
-      // If not already bold, bold and calculate cursor position based on end of selection
-      selected = `**${selected}**`;
-      newEnd = newEnd + 2;
+    switch (command) {
+      case 'bold':
+        if (selected.match(/\*\*.*?\*\*/)) {
+          // If already bold, unbold and calculate cursor position based on end of selection
+          selected = selected.replace(/\*\*/g, '');
+          newEnd = newEnd - 4;
+        } else {
+          // If not already bold, bold and calculate cursor position based on end of selection
+          selected = `**${selected}**`;
+          newEnd = newEnd + 2;
+        }
+        break;
+      case 'italic':
+        if (selected.match(/\*.*?\*/)) {
+          selected = selected.replace(/\*/g, '');
+          newEnd = newEnd - 2;
+        } else {
+          selected = `*${selected}*`;
+          newEnd = newEnd + 1;
+        }
+        break;
     }
 
     // Set new value of entire text area string
@@ -142,6 +158,8 @@ export const boldCommand = (textarea: HTMLTextAreaElement) => {
 
     // Put focus back on textarea so that cursor can be set
     textarea.focus();
+
+    // Set cursor depending of calculated end of selection after formatting
     textarea.setSelectionRange(newEnd, newEnd);
   }
 };
