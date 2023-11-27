@@ -148,6 +148,14 @@ export const formatCommand = (
           newEnd = newEnd + 1;
         }
         break;
+      case 'link':
+        if (selected.match(/\[.*?\]\(.*?\)/)) {
+          selected = selected.replace(/\[(.*?)\]\(.*?\)/, '$1');
+        } else {
+          selected = `[${selected}]()`;
+          newEnd = newEnd + 3;
+        }
+        break;
     }
 
     // Set new value of entire text area string
