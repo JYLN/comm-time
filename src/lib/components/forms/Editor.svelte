@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { boldCommand } from '$lib/utils';
   import type { Tooltip as TooltipPrimitive } from 'bits-ui';
   import { getFormField } from 'formsnap';
   import { Bold, Italic, Link, Underline } from 'lucide-svelte';
@@ -28,7 +29,7 @@
   <div class="w-max rounded-md border px-2 py-1">
     <Tooltip.Root {...toolTipProps}>
       <Tooltip.Trigger asChild let:builder>
-        <Button builders={[builder]} variant="ghost">
+        <Button builders={[builder]} variant="ghost" on:click={() => boldCommand(textAreaRef)}>
           <Bold class="h-4 w-4" />
         </Button>
       </Tooltip.Trigger>
