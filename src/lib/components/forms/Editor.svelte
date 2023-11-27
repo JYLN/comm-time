@@ -23,6 +23,10 @@
   function handleItalic() {
     formatCommand(textAreaRef, 'italic');
   }
+
+  function handleLink() {
+    formatCommand(textAreaRef, 'link');
+  }
 </script>
 
 <div class="flex flex-col gap-2">
@@ -55,7 +59,7 @@
 
     <Tooltip.Root {...toolTipProps}>
       <Tooltip.Trigger asChild let:builder>
-        <Button builders={[builder]} variant="ghost">
+        <Button builders={[builder]} variant="ghost" on:click={handleLink}>
           <Link class="h-4 w-4" />
         </Button>
       </Tooltip.Trigger>
