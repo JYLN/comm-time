@@ -2,7 +2,7 @@
   import { formatCommand } from '$lib/utils';
   import type { Tooltip as TooltipPrimitive } from 'bits-ui';
   import { getFormField } from 'formsnap';
-  import { Bold, Italic, Link } from 'lucide-svelte';
+  import { Bold, Italic, Link, ListOrdered } from 'lucide-svelte';
   import { Button } from '../ui/button';
   import * as Tooltip from '../ui/tooltip';
 
@@ -26,6 +26,10 @@
 
   function handleLink() {
     formatCommand(textAreaRef, 'link');
+  }
+
+  function handleOrderedList() {
+    formatCommand(textAreaRef, 'list-number');
   }
 </script>
 
@@ -64,6 +68,15 @@
         </Button>
       </Tooltip.Trigger>
       <Tooltip.Content>Link</Tooltip.Content>
+    </Tooltip.Root>
+
+    <Tooltip.Root {...toolTipProps}>
+      <Tooltip.Trigger asChild let:builder>
+        <Button builders={[builder]} variant="ghost" on:click={handleOrderedList}>
+          <ListOrdered class="h-4 w-4" />
+        </Button>
+      </Tooltip.Trigger>
+      <Tooltip.Content>Ordered List</Tooltip.Content>
     </Tooltip.Root>
   </div>
 </div>
