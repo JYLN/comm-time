@@ -2,7 +2,7 @@
   import { formatCommand } from '$lib/utils';
   import type { Tooltip as TooltipPrimitive } from 'bits-ui';
   import { getFormField } from 'formsnap';
-  import { Bold, Italic, Link, ListOrdered } from 'lucide-svelte';
+  import { Bold, Italic, Link, List, ListOrdered } from 'lucide-svelte';
   import { Button } from '../ui/button';
   import * as Tooltip from '../ui/tooltip';
 
@@ -30,6 +30,10 @@
 
   function handleOrderedList() {
     formatCommand(textAreaRef, 'list-number');
+  }
+
+  function handleUnorderedList() {
+    formatCommand(textAreaRef, 'list');
   }
 </script>
 
@@ -77,6 +81,15 @@
         </Button>
       </Tooltip.Trigger>
       <Tooltip.Content>Ordered List</Tooltip.Content>
+    </Tooltip.Root>
+
+    <Tooltip.Root {...toolTipProps}>
+      <Tooltip.Trigger asChild let:builder>
+        <Button builders={[builder]} variant="ghost" on:click={handleUnorderedList}>
+          <List class="h-4 w-4" />
+        </Button>
+      </Tooltip.Trigger>
+      <Tooltip.Content>Unordered List</Tooltip.Content>
     </Tooltip.Root>
   </div>
 </div>
