@@ -115,7 +115,7 @@ export const getAvatarImageUrl = (
 // ? Editor Utils
 export const formatCommand = (
   textarea: HTMLTextAreaElement,
-  command: 'bold' | 'italic' | 'link'
+  command: 'bold' | 'italic' | 'link' | 'list-number'
 ) => {
   // Get selection values
   const start = textarea.selectionStart;
@@ -154,6 +154,18 @@ export const formatCommand = (
         } else {
           selected = `[${selected}]()`;
           newEnd = newEnd + 3;
+        }
+        break;
+      case 'list-number':
+        if (/^\d+\.\s(.*)$/gm.test(selected)) {
+          const matches = selected.match(/^\d+\.\s(.*)$/gm);
+          matches?.forEach((match, i) => {
+            if (i === 0) return (selected = match.replace(/^\d+\.\s(.*)$/, '$1'));
+            return (selected += match.replace(/^\d+\.\s(.*)$/, '\n$1'));
+          });
+        } else {
+          selected = `\n1. ${selected}`;
+          newEnd = newEnd + 5;
         }
         break;
     }
