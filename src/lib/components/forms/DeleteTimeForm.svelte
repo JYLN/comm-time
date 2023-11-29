@@ -4,7 +4,7 @@
   import { addToast } from '../ui/Toaster.svelte';
   import * as AlertDialog from '../ui/alert-dialog';
   import * as Form from '../ui/form';
-  import TimeEntryHiddenInput from './TimeEntryHiddenInput.svelte';
+  import HiddenInput from './HiddenInput.svelte';
 
   export let id: string;
   export let open: boolean;
@@ -37,7 +37,7 @@
 >
   <Form.Field {config} name="id">
     <Form.Item hidden>
-      <TimeEntryHiddenInput {id} />
+      <HiddenInput {id} />
     </Form.Item>
   </Form.Field>
   <AlertDialog.Action asChild>
