@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { cn, convertSelectData, type SelectData } from '$lib/utils';
+  import { cn, convertSelectData } from '$lib/utils';
   import { getFormField } from 'formsnap';
   import { Check, ChevronsUpDown } from 'lucide-svelte';
   import { tick } from 'svelte';
@@ -9,10 +9,8 @@
   import * as Form from '../ui/form';
   import * as Popover from '../ui/popover';
 
-  export let customers: SelectData | undefined = convertSelectData($page.data.fullCustomersList);
-
   const { value } = getFormField();
-
+  const customers = convertSelectData($page.data.fullCustomersList) as Custom.SelectData[];
   let open = false;
 
   function closeAndFocusTrigger(triggerId: string) {

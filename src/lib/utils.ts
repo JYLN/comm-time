@@ -90,11 +90,6 @@ export const convertSelectData = (arr: CustomersResponse[] | UsersResponse[] | u
     : [];
 };
 
-export type SelectData = {
-  label: string;
-  value: string;
-}[];
-
 // ? Avatar Utils
 export const getAvatarInitials = (name: string) => {
   if (name && typeof name === 'string') {

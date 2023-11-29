@@ -3,17 +3,19 @@
   import { timeEntrySchema } from '$lib/schemas';
   import { elaspedTime, TIMERSTATE, timerState, timeStops } from '$lib/stores/timeStore';
   import { createEventDispatcher } from 'svelte';
+  import type { SuperValidated } from 'sveltekit-superforms';
   import * as Form from '../ui/form';
   import { addToast } from '../ui/Toaster.svelte';
   import CustomerSelect from './CustomerSelect.svelte';
   import Editor from './Editor.svelte';
   import HiddenInput from './HiddenInput.svelte';
 
+  const form = $page.data.form as SuperValidated<Custom.Forms.TimeEntrySchema>;
   const dispatch = createEventDispatcher();
 </script>
 
 <Form.Root
-  form={$page.data.form}
+  {form}
   schema={timeEntrySchema}
   options={{
     validators: timeEntrySchema,

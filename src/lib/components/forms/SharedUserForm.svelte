@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { sharedUsersSchema, type SharedUsersSchema } from '$lib/schemas';
+  import { sharedUsersSchema } from '$lib/schemas';
   import { onMount, tick } from 'svelte';
   import type { SuperValidated } from 'sveltekit-superforms';
   import { superForm } from 'sveltekit-superforms/client';
@@ -15,7 +15,7 @@
   export let open: boolean;
 
   const { form, enhance, errors } = superForm(
-    $page.data.sharedUsersForm as SuperValidated<SharedUsersSchema>,
+    $page.data.sharedUsersForm as SuperValidated<Custom.Forms.SharedUsersSchema>,
     {
       validators: sharedUsersSchema,
       onResult: ({ result }) => {
