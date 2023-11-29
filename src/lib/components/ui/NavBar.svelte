@@ -5,21 +5,22 @@
   import UserAvatar from './UserAvatar.svelte';
   import { Button } from './button';
   import * as DropdownMenu from './dropdown-menu';
+
+  const links = [
+    { href: '/', name: 'Home', icon: Home },
+    { href: '/previous', name: 'Previous Time', icon: History },
+    { href: '/shared', name: 'Shared Time', icon: FolderClock }
+  ];
 </script>
 
 <nav>
   <div class="buttons">
-    <Button variant="link" href="/">
-      <Home class="mr-2 h-4 w-4" />
-    </Button>
-    <Button variant="link" href="/previous">
-      <History class="mr-2 h-4 w-4" />
-      Previous Time
-    </Button>
-    <Button variant="link" href="/shared">
-      <FolderClock class="mr-2 h-4 w-4" />
-      Shared Time
-    </Button>
+    {#each links as link}
+      <Button variant="link" href={link.href}>
+        <svelte:component this={link.icon} class="mr-2 h-4 w-4" />
+        {link.name}
+      </Button>
+    {/each}
   </div>
   <div class="mobile">
     <DropdownMenu.Root positioning={{ placement: 'bottom-end' }}>
@@ -29,15 +30,12 @@
         </Button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content class="w-56">
-        <DropdownMenu.Item href="/previous">
-          <History class="mr-2 h-4 w-4" />
-          Previous Time
-        </DropdownMenu.Item>
-        <DropdownMenu.Separator />
-        <DropdownMenu.Item href="/shared">
-          <FolderClock class="mr-2 h-5 w-5" />
-          Shared Time
-        </DropdownMenu.Item>
+        {#each links as link}
+          <DropdownMenu.Item href={link.href}>
+            <svelte:component this={link.icon} class="mr-2 h-4 w-4" />
+            {link.name}
+          </DropdownMenu.Item>
+        {/each}
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   </div>
