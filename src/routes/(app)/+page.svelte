@@ -74,7 +74,7 @@
 </script>
 
 <main>
-  <div class="timer">
+  <aside>
     <Card.Root>
       <Card.Header>
         <Card.Title
@@ -96,8 +96,8 @@
         </Button>
       </Card.Content>
     </Card.Root>
-  </div>
-  <div class="time-data-form">
+  </aside>
+  <section>
     <Card.Root>
       <Card.Header>
         <Card.Title class="text-xl font-bold md:text-3xl">New Time Entry</Card.Title>
@@ -111,7 +111,7 @@
         />
       </Card.Content>
     </Card.Root>
-  </div>
+  </section>
 </main>
 
 <style lang="postcss">
