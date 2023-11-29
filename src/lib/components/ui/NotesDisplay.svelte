@@ -3,8 +3,10 @@
   import { marked } from 'marked';
 
   export let notes: string;
+
+  const markedNotes = marked(notes) as string | Node;
 </script>
 
 <div class="prose prose-zinc dark:prose-invert">
-  {@html DOMPurify.sanitize(marked(notes))}
+  {@html DOMPurify.sanitize(markedNotes)}
 </div>
