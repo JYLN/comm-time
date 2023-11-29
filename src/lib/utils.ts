@@ -123,9 +123,8 @@ export const formatCommand = (
 
   // Define regex
   const headingRegex = /^###\s(.*?)$/gm;
-  const boldRegex = /\*\*(.*?)\*\*/g;
-  const italicRegex = /\*(.*?)\*/g;
-  const linkRegex = /\[(.*?)\]\(.*?\)/g;
+  const boldItalRegex = /^\*(.*?)\*$/gm;
+  const linkRegex = /\[(.*?)\]\(.*?\)/gm;
   const listNumberRegex = /^\d+\.\s(.*)$/gm;
   const listRegex = /^-\s(.*)$/gm;
 
@@ -145,9 +144,9 @@ export const formatCommand = (
         }
         break;
       case 'bold':
-        if (boldRegex.test(selected)) {
+        if (boldItalRegex.test(selected)) {
           // If already bold, unbold and calculate cursor position based on end of selection
-          selected = selected.replace(boldRegex, '$1');
+          selected = selected.replace(boldItalRegex, '$1');
           newEnd -= 4;
         } else {
           // If not already bold, bold and calculate cursor position based on end of selection
@@ -156,8 +155,8 @@ export const formatCommand = (
         }
         break;
       case 'italic':
-        if (italicRegex.test(selected)) {
-          selected = selected.replace(italicRegex, '$1');
+        if (boldItalRegex.test(selected)) {
+          selected = selected.replace(boldItalRegex, '$1');
           newEnd -= 2;
         } else {
           selected = `*${selected}*`;
