@@ -121,6 +121,13 @@ export const formatCommand = (
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
 
+  // Define regex
+  const boldRegex = /\*\*(.*?)\*\*/g;
+  const italicRegex = /\*(.*?)\*/g;
+  const linkRegex = /\[(.*?)\]\(.*?\)/g;
+  const listNumberRegex = /^\d+\.\s(.*)$/gm;
+  const listRegex = /^-\s(.*)$/gm;
+
   if (start || start === 0) {
     // Get selection in a new string
     let selected = textarea.value.substring(start, end);
@@ -129,55 +136,56 @@ export const formatCommand = (
 
     switch (command) {
       case 'bold':
-        if (selected.match(/\*\*.*?\*\*/)) {
+        if (boldRegex.test(selected)) {
           // If already bold, unbold and calculate cursor position based on end of selection
-          selected = selected.replace(/\*\*/g, '');
-          newEnd = newEnd - 4;
+          selected = selected.replace(boldRegex, '$1');
+          newEnd -= 4;
         } else {
           // If not already bold, bold and calculate cursor position based on end of selection
           selected = `**${selected}**`;
-          newEnd = newEnd + 2;
+          newEnd += 2;
         }
         break;
       case 'italic':
-        if (selected.match(/\*.*?\*/)) {
-          selected = selected.replace(/\*/g, '');
-          newEnd = newEnd - 2;
+        if (italicRegex.test(selected)) {
+          selected = selected.replace(italicRegex, '$1');
+          newEnd -= 2;
         } else {
           selected = `*${selected}*`;
-          newEnd = newEnd + 1;
+          newEnd += 1;
         }
         break;
       case 'link':
-        if (selected.match(/\[.*?\]\(.*?\)/)) {
-          selected = selected.replace(/\[(.*?)\]\(.*?\)/, '$1');
+        if (linkRegex.test(selected)) {
+          selected = selected.replace(linkRegex, '$1');
+          newEnd -= 1;
         } else {
           selected = `[${selected}]()`;
-          newEnd = newEnd + 3;
+          newEnd += 3;
         }
         break;
       case 'list-number':
-        if (/^\d+\.\s(.*)$/gm.test(selected)) {
-          const matches = selected.match(/^\d+\.\s(.*)$/gm);
+        if (listNumberRegex.test(selected)) {
+          const matches = selected.match(listNumberRegex);
           matches?.forEach((match, i) => {
             if (i === 0) return (selected = match.replace(/^\d+\.\s(.*)$/, '$1'));
             return (selected += match.replace(/^\d+\.\s(.*)$/, '\n$1'));
           });
         } else {
           selected = `\n1. ${selected}`;
-          newEnd = newEnd + 5;
+          newEnd += 5;
         }
         break;
       case 'list':
-        if (/^-\s(.*)$/gm.test(selected)) {
-          const matches = selected.match(/^-\s(.*)$/gm);
+        if (listRegex.test(selected)) {
+          const matches = selected.match(listRegex);
           matches?.forEach((match, i) => {
             if (i === 0) return (selected = match.replace(/^-\s(.*)$/, '$1'));
             return (selected += match.replace(/^-\s(.*)$/, '\n$1'));
           });
         } else {
           selected = `\n- ${selected}`;
-          newEnd = newEnd + 3;
+          newEnd += 3;
         }
     }
 
