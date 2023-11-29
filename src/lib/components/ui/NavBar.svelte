@@ -1,13 +1,13 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { AlignLeft, FolderClock, History, Home, Moon, Sun } from 'lucide-svelte';
+  import { AlarmPlus, AlignLeft, FolderClock, History, Moon, Sun } from 'lucide-svelte';
   import { mode, toggleMode } from 'mode-watcher';
   import UserAvatar from './UserAvatar.svelte';
   import { Button } from './button';
   import * as DropdownMenu from './dropdown-menu';
 
   const links = [
-    { href: '/', name: 'Home', icon: Home },
+    { href: '/', name: 'New Entry', icon: AlarmPlus },
     { href: '/previous', name: 'Previous Time', icon: History },
     { href: '/shared', name: 'Shared Time', icon: FolderClock }
   ];

@@ -4,6 +4,10 @@
   export let data;
 </script>
 
+<svelte:head>
+  <title>Shared Entries - CommTime</title>
+</svelte:head>
+
 <main class="container mx-auto">
   {#if data.tableData && data.tableData.length > 0}
     <TimeTable data={data.tableData} />

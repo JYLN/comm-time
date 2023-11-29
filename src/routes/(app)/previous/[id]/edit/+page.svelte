@@ -7,6 +7,10 @@
   export let data;
 </script>
 
+<svelte:head>
+  <title>Edit - {data.timeEntry?.name} - CommTime</title>
+</svelte:head>
+
 <main class="container mx-auto">
   <div class="flex gap-3">
     <Button variant="ghost" size="icon" href="/previous">
