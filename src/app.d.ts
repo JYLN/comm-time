@@ -48,6 +48,8 @@ declare global {
       label: string;
       value: string;
     }
+
+    type AvatarProps = Expand<{ user: UsersResponse }> & HTMLAttributes<HTMLDivElement>;
   }
 }
 
