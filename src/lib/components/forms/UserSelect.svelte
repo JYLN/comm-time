@@ -15,7 +15,7 @@
   export let onRemove: ((indexToRemove: string | undefined) => Promise<void>) | undefined =
     undefined;
 
-  let users = convertSelectData($page.data.fullUsersList);
+  const users = convertSelectData($page.data.fullUsersList) as Custom.SelectData[];
   let open = false;
 
   $: selectedUser = users?.find((el) => el.value === value);

@@ -1,12 +1,15 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { loginFormSchema } from '$lib/schemas';
+  import type { SuperValidated } from 'sveltekit-superforms';
   import { addToast } from '../ui/Toaster.svelte';
   import * as Form from '../ui/form';
+
+  const form = $page.data.form as SuperValidated<Custom.Forms.LoginFormSchema>;
 </script>
 
 <Form.Root
-  form={$page.data.form}
+  {form}
   schema={loginFormSchema}
   options={{
     onResult: ({ result }) => {

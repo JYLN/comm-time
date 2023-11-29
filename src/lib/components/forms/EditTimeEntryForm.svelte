@@ -1,12 +1,12 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { editTimeEntrySchema, type EditTimeEntrySchema } from '$lib/schemas';
+  import { editTimeEntrySchema } from '$lib/schemas';
   import type { SuperValidated } from 'sveltekit-superforms';
   import * as Form from '../ui/form';
   import { addToast } from '../ui/Toaster.svelte';
   import CustomerSelect from './CustomerSelect.svelte';
 
-  export let form: SuperValidated<EditTimeEntrySchema> = $page.data.form;
+  const form = $page.data.form as SuperValidated<Custom.Forms.EditTimeEntrySchema>;
 </script>
 
 <Form.Root

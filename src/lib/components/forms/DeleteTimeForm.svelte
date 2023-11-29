@@ -1,17 +1,20 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { deleteTimeEntrySchema } from '$lib/schemas';
+  import type { SuperValidated } from 'sveltekit-superforms';
   import { addToast } from '../ui/Toaster.svelte';
   import * as AlertDialog from '../ui/alert-dialog';
   import * as Form from '../ui/form';
   import HiddenInput from './HiddenInput.svelte';
+
+  const form = $page.data.deleteTimeForm as SuperValidated<Custom.Forms.DeleteTimeEntrySchema>;
 
   export let id: string;
   export let open: boolean;
 </script>
 
 <Form.Root
-  form={$page.data.deleteTimeForm}
+  {form}
   schema={deleteTimeEntrySchema}
   options={{
     onResult: ({ result }) => {
