@@ -7,39 +7,7 @@
   import { Button } from '../ui/button';
   import * as Tooltip from '../ui/tooltip';
 
-  const { attrStore, actions, value: editorValue } = getFormField();
-
   let textAreaRef: HTMLTextAreaElement;
-  const toolTipProps: TooltipPrimitive.Props = {
-    positioning: { placement: 'bottom' },
-    openDelay: 200,
-    closeDelay: 100,
-    group: 'actions'
-  };
-
-  function handleHeader() {
-    formatCommand(textAreaRef, 'heading');
-  }
-
-  function handleBold() {
-    formatCommand(textAreaRef, 'bold');
-  }
-
-  function handleItalic() {
-    formatCommand(textAreaRef, 'italic');
-  }
-
-  function handleLink() {
-    formatCommand(textAreaRef, 'link');
-  }
-
-  function handleOrderedList() {
-    formatCommand(textAreaRef, 'list-number');
-  }
-
-  function handleUnorderedList() {
-    formatCommand(textAreaRef, 'list');
-  }
 
   async function handleCopy() {
     try {
@@ -56,6 +24,25 @@
       });
     }
   }
+
+  const { attrStore, actions, value: editorValue } = getFormField();
+
+  const toolTipProps: TooltipPrimitive.Props = {
+    positioning: { placement: 'bottom' },
+    openDelay: 200,
+    closeDelay: 100,
+    group: 'actions'
+  };
+
+  const buttons: Custom.EditorButtons[] = [
+    { name: 'Heading', icon: Heading, command: 'heading' },
+    { name: 'Bold', icon: Bold, command: 'bold' },
+    { name: 'Italic', icon: Italic, command: 'italic' },
+    { name: 'Link', icon: Link, command: 'link' },
+    { name: 'Ordered List', icon: ListOrdered, command: 'list-number' },
+    { name: 'Unordered List', icon: List, command: 'list' },
+    { name: 'Copy to Clipboard', icon: ClipboardCopy }
+  ];
 </script>
 
 <div class="relative">
@@ -69,78 +56,22 @@
   />
 
   <div class="button-container">
-    <Tooltip.Root {...toolTipProps}>
-      <Tooltip.Trigger asChild let:builder>
-        <Button builders={[builder]} variant="outline" class="px-2 py-0" on:click={handleHeader}>
-          <Heading class="h-4 w-4" />
-        </Button>
-      </Tooltip.Trigger>
-      <Tooltip.Content>Bold</Tooltip.Content>
-    </Tooltip.Root>
-
-    <Tooltip.Root {...toolTipProps}>
-      <Tooltip.Trigger asChild let:builder>
-        <Button builders={[builder]} variant="outline" class="px-2 py-0" on:click={handleBold}>
-          <Bold class="h-4 w-4" />
-        </Button>
-      </Tooltip.Trigger>
-      <Tooltip.Content>Bold</Tooltip.Content>
-    </Tooltip.Root>
-
-    <Tooltip.Root {...toolTipProps}>
-      <Tooltip.Trigger asChild let:builder>
-        <Button builders={[builder]} variant="outline" class="px-2 py-0" on:click={handleItalic}>
-          <Italic class="h-4 w-4" />
-        </Button>
-      </Tooltip.Trigger>
-      <Tooltip.Content>Italic</Tooltip.Content>
-    </Tooltip.Root>
-
-    <Tooltip.Root {...toolTipProps}>
-      <Tooltip.Trigger asChild let:builder>
-        <Button builders={[builder]} variant="outline" class="px-2 py-0" on:click={handleLink}>
-          <Link class="h-4 w-4" />
-        </Button>
-      </Tooltip.Trigger>
-      <Tooltip.Content>Link</Tooltip.Content>
-    </Tooltip.Root>
-
-    <Tooltip.Root {...toolTipProps}>
-      <Tooltip.Trigger asChild let:builder>
-        <Button
-          builders={[builder]}
-          variant="outline"
-          class="px-2 py-0"
-          on:click={handleOrderedList}
-        >
-          <ListOrdered class="h-4 w-4" />
-        </Button>
-      </Tooltip.Trigger>
-      <Tooltip.Content>Ordered List</Tooltip.Content>
-    </Tooltip.Root>
-
-    <Tooltip.Root {...toolTipProps}>
-      <Tooltip.Trigger asChild let:builder>
-        <Button
-          builders={[builder]}
-          variant="outline"
-          class="px-2 py-0"
-          on:click={handleUnorderedList}
-        >
-          <List class="h-4 w-4" />
-        </Button>
-      </Tooltip.Trigger>
-      <Tooltip.Content>Unordered List</Tooltip.Content>
-    </Tooltip.Root>
-
-    <Tooltip.Root {...toolTipProps}>
-      <Tooltip.Trigger asChild let:builder>
-        <Button builders={[builder]} variant="outline" class="px-2 py-0" on:click={handleCopy}>
-          <ClipboardCopy class="h-4 w-4" />
-        </Button>
-      </Tooltip.Trigger>
-      <Tooltip.Content>Copy to clipboard</Tooltip.Content>
-    </Tooltip.Root>
+    {#each buttons as button (button.name)}
+      <Tooltip.Root {...toolTipProps}>
+        <Tooltip.Trigger asChild let:builder>
+          <Button
+            builders={[builder]}
+            variant="outline"
+            class="px-2"
+            on:click={() =>
+              button.command ? formatCommand(textAreaRef, button.command) : handleCopy()}
+          >
+            <svelte:component this={button.icon} class="h-4 w-4" />
+          </Button>
+        </Tooltip.Trigger>
+        <Tooltip.Content>{button.name}</Tooltip.Content>
+      </Tooltip.Root>
+    {/each}
   </div>
 </div>
 
