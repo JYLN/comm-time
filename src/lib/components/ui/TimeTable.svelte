@@ -117,7 +117,7 @@
 
 <div class="mb-6">
   <Input
-    class="max-w-md"
+    class="max-w-md bg-background"
     placeholder="Search by job name, customer, start date, or end date..."
     type="text"
     bind:value={$filterValue}
