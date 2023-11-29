@@ -13,7 +13,7 @@ A simple time/job tracking app. Built utilizing SvelteKit/Pocketbase, and shadcn
 
 ### Main Technologies
 
-- [SvelteKit](https://kit.svelte.dev)
+- [SvelteKit](https://kit.svelte.dev){:target="\_blank"}
 - [Pocketbase](https://pocketbase.io/)
 - [TailwindCSS](https://tailwindcss.com/docs/installation)
 - [shadcn-svelte](https://www.shadcn-svelte.com/)
