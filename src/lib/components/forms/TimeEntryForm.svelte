@@ -7,7 +7,7 @@
   import { addToast } from '../ui/Toaster.svelte';
   import CustomerSelect from './CustomerSelect.svelte';
   import Editor from './Editor.svelte';
-  import TimeEntryHiddenInput from './TimeEntryHiddenInput.svelte';
+  import HiddenInput from './HiddenInput.svelte';
 
   const dispatch = createEventDispatcher();
 </script>
@@ -81,7 +81,7 @@
     </Form.Item>
   </Form.Field>
   <Form.Field {config} name="start_time">
-    <TimeEntryHiddenInput />
+    <HiddenInput />
     <Form.Validation />
   </Form.Field>
   <Form.Button class="transition-all duration-200 ease-in-out" disabled={$timeStops.length < 1}>
