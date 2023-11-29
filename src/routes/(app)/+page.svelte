@@ -34,6 +34,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>New Entry - CommTime</title>
+</svelte:head>
+
 <main>
   <aside>
     <Card.Root>

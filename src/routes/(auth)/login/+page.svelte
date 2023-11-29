@@ -2,6 +2,10 @@
   import LoginForm from '$lib/components/forms/LoginForm.svelte';
 </script>
 
+<svelte:head>
+  <title>Login - CommTime</title>
+</svelte:head>
+
 <main>
   <LoginForm />
 </main>

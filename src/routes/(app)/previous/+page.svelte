@@ -4,6 +4,10 @@
   export let data;
 </script>
 
+<svelte:head>
+  <title>Previous Entries - CommTime</title>
+</svelte:head>
+
 <main class="container mx-auto">
   {#key data.tableData}
     {#if data.tableData.length > 0}
