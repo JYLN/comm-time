@@ -12,8 +12,8 @@
     timeDisplay,
     timeStops,
     timerState
-  } from '$lib/stores/timeStore.js';
-  import { cn, convertSelectData } from '$lib/utils.js';
+  } from '$lib/stores/timeStore';
+  import { cn, convertSelectData } from '$lib/utils';
   import type { FormOptions } from 'formsnap';
   import { Pause, Play, TimerReset } from 'lucide-svelte';
 
