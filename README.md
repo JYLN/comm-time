@@ -1,38 +1,37 @@
-# create-svelte
+# comm-time
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+A simple time/job tracking app. Built utilizing SvelteKit/Pocketbase, and shadcn-svelte.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- Timer (Start, Pause, Reset)
+- Notes (Keep notes of your time, including specific customers and names for the entries | _Supports markdown_ :tada:)
+- Previous Time (View all of your previous time entries with an ability to filter through results)
+- Sharing (Share your notes with internal users)
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Stack
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+### Main Technologies
 
-## Developing
+- [SvelteKit](https://kit.svelte.dev)
+- [Pocketbase](https://pocketbase.io/)
+- [TailwindCSS](https://tailwindcss.com/docs/installation)
+- [shadcn-svelte](https://www.shadcn-svelte.com/)
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+#### Other Technologies
 
-```bash
-npm run dev
+- [Lucide Icons](https://lucide.dev)
+- [melt-ui](https://melt-ui.com)
+- [mode-watcher](https://github.com/huntabyte/mode-watcher)
+- [marked](https://marked.js.org/)
+- [DOMPurify](https://github.com/cure53/DOMPurify)
+- [@tailwindcss/typography](https://tailwindcss.com/docs/typography-plugin)
+- [svelte-headless-table](https://svelte-headless-table.bryanmylee.com/)
+- [formsnap](https://formsnap.dev)
+- [sveltekit-superforms](https://superforms.rocks)
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+## Contributing
 
-## Building
+Feel free to open an issue or pull request if you're interested in contributing!
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+You will have to replicate the Pocketbase backend, but eventually I will have the collections available within the repo to upload to a dev Pocketbase instance.
