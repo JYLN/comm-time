@@ -1,20 +1,16 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { deleteTimeEntrySchema, type DeleteTimeEntrySchema } from '$lib/schemas';
   import { MoreHorizontal, Pencil, ScrollText, Share, Trash2 } from 'lucide-svelte';
-  import type { SuperValidated } from 'sveltekit-superforms';
   import type { UsersResponse } from '../../../backend-types';
   import { humanize } from '../../utils';
+  import DeleteTimeForm from '../forms/DeleteTimeForm.svelte';
   import SharedUserForm from '../forms/SharedUserForm.svelte';
-  import TimeEntryHiddenInput from '../forms/TimeEntryHiddenInput.svelte';
   import * as AlertDialog from '../ui/alert-dialog';
   import * as Sheet from '../ui/sheet';
   import { Button } from './button';
   import * as DropdownMenu from './dropdown-menu';
-  import * as Form from './form';
   import NotesDisplay from './NotesDisplay.svelte';
   import { Separator } from './separator';
-  import { addToast } from './Toaster.svelte';
   import UserAvatar from './UserAvatar.svelte';
   import UserAvatarStack from './UserAvatarStack.svelte';
 
@@ -27,7 +23,6 @@
   export let author: UsersResponse;
   export let start_time: string;
   export let end_time: string;
-  export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema> | undefined = undefined;
 
   let actionsOpen: boolean = false;
   let noteSheetOpen: boolean = false;
@@ -135,41 +130,7 @@
     </AlertDialog.Header>
     <AlertDialog.Footer>
       <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-      {#if deleteTimeForm}
-        <Form.Root
-          form={deleteTimeForm}
-          schema={deleteTimeEntrySchema}
-          options={{
-            onResult: ({ result }) => {
-              switch (result.type) {
-                case 'success':
-                case 'redirect':
-                  deleteDialogOpen = false;
-                  addToast({
-                    data: { title: 'Success!', description: 'Time entry deleted successfully!' }
-                  });
-                  break;
-              }
-            },
-            onError: ({ result }) => {
-              console.log(result);
-              addToast({ data: { title: 'Error!', description: result.error.message } });
-            }
-          }}
-          let:config
-          action="?/deleteTimeEntry"
-          method="POST"
-        >
-          <Form.Field {config} name="id">
-            <Form.Item hidden>
-              <TimeEntryHiddenInput {id} />
-            </Form.Item>
-          </Form.Field>
-          <AlertDialog.Action asChild>
-            <Form.Button>Delete</Form.Button>
-          </AlertDialog.Action>
-        </Form.Root>
-      {/if}
+      <DeleteTimeForm {id} bind:open={deleteDialogOpen} />
     </AlertDialog.Footer>
   </AlertDialog.Content>
 </AlertDialog.Root>
@@ -183,11 +144,6 @@
         time entry. Select users below to share this time entry. Click 'Submit' when finished.
       </Sheet.Description>
     </Sheet.Header>
-    <SharedUserForm
-      formData={$page.data.sharedUsersForm}
-      users={shared_users}
-      {id}
-      bind:open={shareSheetOpen}
-    />
+    <SharedUserForm users={shared_users} {id} bind:open={shareSheetOpen} />
   </Sheet.Content>
 </Sheet.Root>

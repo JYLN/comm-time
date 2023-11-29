@@ -7,7 +7,7 @@
 <main class="container mx-auto">
   {#key data.tableData}
     {#if data.tableData.length > 0}
-      <TimeTable deleteTimeForm={data.deleteTimeForm} data={data.tableData} />
+      <TimeTable data={data.tableData} />
     {:else}
       <h2 class="heading-1">
         No time entries created.

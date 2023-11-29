@@ -1,11 +1,9 @@
 <script lang="ts">
-  import type { DeleteTimeEntrySchema } from '$lib/schemas';
   import { humanize } from '$lib/utils';
   import type { RecordModel } from 'pocketbase';
   import { Render, Subscribe, createRender, createTable } from 'svelte-headless-table';
   import { addTableFilter } from 'svelte-headless-table/plugins';
   import { writable } from 'svelte/store';
-  import type { SuperValidated } from 'sveltekit-superforms';
   import type {
     CustomersResponse,
     TimeEntriesResponse,
@@ -23,7 +21,6 @@
         author: UsersResponse;
       }>[]
     | RecordModel[];
-  export let deleteTimeForm: SuperValidated<DeleteTimeEntrySchema> | undefined = undefined;
 
   const tableData = writable(data);
 
@@ -106,8 +103,7 @@
           shared_users: value.expand?.shared_users,
           author: value.expand?.author,
           start_time: value.start_time,
-          end_time: value.end_time,
-          deleteTimeForm
+          end_time: value.end_time
         });
       },
       ...excludeFromFilter

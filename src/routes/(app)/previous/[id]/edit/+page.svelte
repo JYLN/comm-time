@@ -1,35 +1,10 @@
 <script lang="ts">
   import EditTimeEntryForm from '$lib/components/forms/EditTimeEntryForm.svelte';
-  import { addToast } from '$lib/components/ui/Toaster.svelte';
   import { Button } from '$lib/components/ui/button';
-  import { editTimeEntrySchema, type EditTimeEntrySchema } from '$lib/schemas/index.js';
-  import { convertSelectData } from '$lib/utils.js';
-  import type { FormOptions } from 'formsnap';
   import { Undo2 } from 'lucide-svelte';
   import moment from 'moment';
 
   export let data;
-
-  const options: FormOptions<EditTimeEntrySchema> = {
-    validators: editTimeEntrySchema,
-    onResult: ({ result }) => {
-      switch (result.type) {
-        case 'success':
-        case 'redirect':
-          addToast({
-            data: {
-              title: 'Success!',
-              description: 'Time entry edited successfully!'
-            }
-          });
-          break;
-      }
-    },
-    onError: ({ result }) => {
-      console.log(result);
-      addToast({ data: { title: 'Error!', description: result.error.message } });
-    }
-  };
 </script>
 
 <main class="container mx-auto">
@@ -47,10 +22,6 @@
     </div>
   </div>
   {#if data.form}
-    <EditTimeEntryForm
-      form={data.form}
-      customers={convertSelectData(data.customerData)}
-      {options}
-    />
+    <EditTimeEntryForm />
   {/if}
 </main>

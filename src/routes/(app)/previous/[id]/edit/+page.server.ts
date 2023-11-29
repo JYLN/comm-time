@@ -9,7 +9,7 @@ export async function load({ locals, params }) {
   try {
     const timeEntry = await locals.pb?.collection('time_entries').getOne(params.id);
 
-    const customers = (await locals.pb
+    const fullCustomersList = (await locals.pb
       ?.collection('customers')
       .getFullList()) as CustomersResponse[];
 
@@ -21,7 +21,7 @@ export async function load({ locals, params }) {
 
     const form = superValidate(returnObj, editTimeEntrySchema);
 
-    return { timeEntry, form, customerData: customers };
+    return { timeEntry, form, fullCustomersList };
   } catch (err) {
     if (err instanceof ClientResponseError) {
       console.error(err);

@@ -1,23 +1,11 @@
 <script lang="ts">
   import TimeEntryForm from '$lib/components/forms/TimeEntryForm.svelte';
-  import { addToast } from '$lib/components/ui/Toaster.svelte';
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import { Separator } from '$lib/components/ui/separator';
-  import { timeEntrySchema, type TimeEntrySchema } from '$lib/schemas';
-  import {
-    TIMERSTATE,
-    elaspedTime,
-    time,
-    timeDisplay,
-    timeStops,
-    timerState
-  } from '$lib/stores/timeStore';
-  import { cn, convertSelectData } from '$lib/utils';
-  import type { FormOptions } from 'formsnap';
+  import { TIMERSTATE, time, timeDisplay, timeStops, timerState } from '$lib/stores/timeStore';
+  import { cn } from '$lib/utils';
   import { Pause, Play, TimerReset } from 'lucide-svelte';
-
-  export let data;
 
   let timerInterval: ReturnType<typeof setInterval>;
 
@@ -44,33 +32,6 @@
     timeStops.clearStops();
     time.reset();
   }
-
-  const options: FormOptions<TimeEntrySchema> = {
-    validators: timeEntrySchema,
-    onSubmit: ({ formData }) => {
-      if ($timerState === TIMERSTATE.RUNNING) {
-        pauseTimer();
-      }
-
-      formData.set('end_time', $timeStops[$timeStops.length - 1]);
-      formData.set('elapsed_time', $elaspedTime.toString());
-    },
-    onResult: ({ result }) => {
-      switch (result.type) {
-        case 'success':
-        case 'redirect':
-          resetTimer();
-          addToast({
-            data: { title: 'Success!', description: 'Time entry created successfully!' }
-          });
-          break;
-      }
-    },
-    onError: ({ result }) => {
-      console.log(result);
-      addToast({ data: { title: 'Error!', description: result.error.message } });
-    }
-  };
 </script>
 
 <main>
@@ -104,11 +65,7 @@
         <Separator />
       </Card.Header>
       <Card.Content>
-        <TimeEntryForm
-          form={data.form}
-          {options}
-          customers={convertSelectData(data.customerData)}
-        />
+        <TimeEntryForm on:pause={pauseTimer} on:reset={resetTimer} />
       </Card.Content>
     </Card.Root>
   </section>
