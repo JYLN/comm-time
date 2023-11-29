@@ -79,7 +79,9 @@ export const humanize = (value: number | string): string => {
   return moment(value).format('MM/DD/YY hh:mma');
 };
 
-export const convertSelectData = (arr: CustomersResponse[] | UsersResponse[] | undefined) => {
+export const convertSelectData = (
+  arr: CustomersResponse[] | UsersResponse[] | undefined
+): Custom.SelectData[] => {
   return arr
     ? arr
         .map((obj) => ({
@@ -91,7 +93,7 @@ export const convertSelectData = (arr: CustomersResponse[] | UsersResponse[] | u
 };
 
 // ? Avatar Utils
-export const getAvatarInitials = (name: string) => {
+export const getAvatarInitials = (name: string): string | undefined => {
   if (name && typeof name === 'string') {
     return name.match(/(\b\S)?/g)?.join('');
   }
@@ -103,7 +105,7 @@ export const getAvatarImageUrl = (
   recordId: string,
   fileName: string,
   size = '0x0'
-) => {
+): string => {
   return `${PUBLIC_LOCAL_POCKETBASE}/api/files/${collectionId}/${recordId}/${fileName}?thumb=${size}`;
 };
 
