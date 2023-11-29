@@ -1,8 +1,8 @@
 <script lang="ts">
   import EditTimeEntryForm from '$lib/components/forms/EditTimeEntryForm.svelte';
   import { Button } from '$lib/components/ui/button';
+  import { humanize } from '$lib/utils.js';
   import { Undo2 } from 'lucide-svelte';
-  import moment from 'moment';
 
   export let data;
 </script>
@@ -15,13 +15,11 @@
     <div>
       <h2 class="heading-1 mb-2">Edit - {data.timeEntry?.name}</h2>
       <p class="mb-4 text-sm text-muted-foreground">
-        Start Time: {moment(data.timeEntry?.start_time).format('MM/DD/YY hh:mma')} • End Time: {moment(
+        Start Time: {humanize(data.timeEntry?.start_time)} • End Time: {humanize(
           data.timeEntry?.end_time
-        ).format('MM/DD/YY hh:mma')}
+        )}
       </p>
     </div>
   </div>
-  {#if data.form}
-    <EditTimeEntryForm />
-  {/if}
+  <EditTimeEntryForm />
 </main>
