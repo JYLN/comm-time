@@ -8,7 +8,7 @@
 
   export let users: UsersResponse[] | undefined;
 
-  let stack_class = 'h-9 w-9 border-2 dark:border-background';
+  const stack_class = 'h-9 w-9 border-2 dark:border-background';
   const displayedUsers = users?.slice(0, 3);
   const nonDisplayedUsers = users?.slice(3);
   const toolTipProps: TooltipPrimitive.Props = {
