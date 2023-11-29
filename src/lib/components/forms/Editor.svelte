@@ -2,7 +2,7 @@
   import { formatCommand } from '$lib/utils';
   import type { Tooltip as TooltipPrimitive } from 'bits-ui';
   import { getFormField } from 'formsnap';
-  import { Bold, ClipboardCopy, Italic, Link, List, ListOrdered } from 'lucide-svelte';
+  import { Bold, ClipboardCopy, Heading, Italic, Link, List, ListOrdered } from 'lucide-svelte';
   import { addToast } from '../ui/Toaster.svelte';
   import { Button } from '../ui/button';
   import * as Tooltip from '../ui/tooltip';
@@ -16,6 +16,10 @@
     closeDelay: 100,
     group: 'actions'
   };
+
+  function handleHeader() {
+    formatCommand(textAreaRef, 'heading');
+  }
 
   function handleBold() {
     formatCommand(textAreaRef, 'bold');
@@ -65,6 +69,15 @@
   />
 
   <div class="button-container">
+    <Tooltip.Root {...toolTipProps}>
+      <Tooltip.Trigger asChild let:builder>
+        <Button builders={[builder]} variant="outline" class="px-2 py-0" on:click={handleHeader}>
+          <Heading class="h-4 w-4" />
+        </Button>
+      </Tooltip.Trigger>
+      <Tooltip.Content>Bold</Tooltip.Content>
+    </Tooltip.Root>
+
     <Tooltip.Root {...toolTipProps}>
       <Tooltip.Trigger asChild let:builder>
         <Button builders={[builder]} variant="outline" class="px-2 py-0" on:click={handleBold}>

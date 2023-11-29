@@ -115,13 +115,14 @@ export const getAvatarImageUrl = (
 // ? Editor Utils
 export const formatCommand = (
   textarea: HTMLTextAreaElement,
-  command: 'bold' | 'italic' | 'link' | 'list-number' | 'list'
+  command: 'heading' | 'bold' | 'italic' | 'link' | 'list-number' | 'list'
 ) => {
   // Get selection values
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
 
   // Define regex
+  const headingRegex = /^###\s(.*?)$/gm;
   const boldRegex = /\*\*(.*?)\*\*/g;
   const italicRegex = /\*(.*?)\*/g;
   const linkRegex = /\[(.*?)\]\(.*?\)/g;
@@ -135,6 +136,14 @@ export const formatCommand = (
     let newEnd = end;
 
     switch (command) {
+      case 'heading':
+        if (headingRegex.test(selected)) {
+          selected = selected.replace(headingRegex, '$1');
+        } else {
+          selected = `### ${selected}`;
+          newEnd += 4;
+        }
+        break;
       case 'bold':
         if (boldRegex.test(selected)) {
           // If already bold, unbold and calculate cursor position based on end of selection
