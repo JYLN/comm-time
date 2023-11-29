@@ -18,6 +18,14 @@ declare global {
     }
     // interface Platform {}
   }
+
+  namespace Custom {
+    interface EditorButtons {
+      name: string;
+      icon: ConstructorOfATypedSvelteComponent;
+      command?: 'heading' | 'bold' | 'italic' | 'link' | 'list-number' | 'list';
+    }
+  }
 }
 
 export {};
