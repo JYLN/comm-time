@@ -25,7 +25,7 @@ export const actions: Actions = {
       await locals.pb
         ?.collection('users')
         .authWithPassword(loginForm.data.email, loginForm.data.password);
-    } catch (err) {
+    } catch (_) {
       try {
         await locals.pb?.admins.authWithPassword(loginForm.data.email, loginForm.data.password);
       } catch (err) {
