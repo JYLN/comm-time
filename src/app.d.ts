@@ -50,6 +50,11 @@ declare global {
     }
 
     type AvatarProps = Expand<{ user: UsersResponse }> & HTMLAttributes<HTMLDivElement>;
+
+    interface ToastData {
+      title: string;
+      description: string;
+    }
   }
 }
 

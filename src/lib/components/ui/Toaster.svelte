@@ -1,15 +1,10 @@
 <script lang="ts" context="module">
-  export type ToastData = {
-    title: string;
-    description: string;
-  };
-
   const {
     elements: { content, title, description, close },
     helpers,
     states: { toasts },
     actions: { portal }
-  } = createToaster<ToastData>();
+  } = createToaster<Custom.ToastData>();
 
   export const addToast = helpers.addToast;
 </script>
