@@ -4,12 +4,12 @@
 
   export let id: string = '';
 
-  const { setValue, actions, name } = getFormField();
+  const { value, actions, name } = getFormField();
 
   $: if (name === 'start_time') {
-    setValue($timeStops[0]);
+    $value = $timeStops[0];
   } else if (name === 'id') {
-    setValue(id);
+    $value = id;
   }
 </script>
 

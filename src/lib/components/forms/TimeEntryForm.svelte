@@ -1,29 +1,51 @@
 <script lang="ts">
-  import { timeEntrySchema, type TimeEntrySchema } from '$lib/schemas';
-  import { timeStops } from '$lib/stores/timeStore';
-  import type { SelectData } from '$lib/utils';
-  import type { FormOptions } from 'formsnap';
-  import type { SuperValidated } from 'sveltekit-superforms';
+  import { page } from '$app/stores';
+  import { timeEntrySchema } from '$lib/schemas';
+  import { elaspedTime, TIMERSTATE, timerState, timeStops } from '$lib/stores/timeStore';
+  import { createEventDispatcher } from 'svelte';
   import * as Form from '../ui/form';
+  import { addToast } from '../ui/Toaster.svelte';
   import CustomerSelect from './CustomerSelect.svelte';
   import Editor from './Editor.svelte';
   import TimeEntryHiddenInput from './TimeEntryHiddenInput.svelte';
 
-  export let form: SuperValidated<TimeEntrySchema>;
-  export let options: FormOptions<TimeEntrySchema>;
-  export let customers: SelectData;
+  const dispatch = createEventDispatcher();
 </script>
 
 <Form.Root
-  {form}
-  {options}
+  form={$page.data.form}
+  schema={timeEntrySchema}
+  options={{
+    validators: timeEntrySchema,
+    onSubmit: ({ formData }) => {
+      if ($timerState === TIMERSTATE.RUNNING) {
+        dispatch('pause');
+      }
+
+      formData.set('end_time', $timeStops[$timeStops.length - 1]);
+      formData.set('elapsed_time', $elaspedTime.toString());
+    },
+    onResult: ({ result }) => {
+      switch (result.type) {
+        case 'success':
+        case 'redirect':
+          dispatch('reset');
+          addToast({
+            data: { title: 'Success!', description: 'Time entry created successfully!' }
+          });
+          break;
+      }
+    },
+    onError: ({ result }) => {
+      console.log(result);
+      addToast({ data: { title: 'Error!', description: result.error.message } });
+    }
+  }}
   method="POST"
   enctype="multipart/form-data"
   action="?/createTime"
-  schema={timeEntrySchema}
   let:config
   class="grid gap-4"
-  debug={true}
 >
   <Form.Field {config} name="name">
     <Form.Item class="flex flex-col">
@@ -32,10 +54,10 @@
       <Form.Validation />
     </Form.Item>
   </Form.Field>
-  <Form.Field {config} name="customer" let:setValue let:value>
+  <Form.Field {config} name="customer">
     <Form.Item class="flex flex-col">
       <Form.Label>Customer</Form.Label>
-      <CustomerSelect {setValue} {value} {customers} />
+      <CustomerSelect />
       <Form.Validation />
     </Form.Item>
   </Form.Field>

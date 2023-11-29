@@ -1,21 +1,39 @@
 <script lang="ts">
+  import { page } from '$app/stores';
   import { editTimeEntrySchema, type EditTimeEntrySchema } from '$lib/schemas';
-  import type { SelectData } from '$lib/utils';
-  import type { FormOptions } from 'formsnap';
   import type { SuperValidated } from 'sveltekit-superforms';
   import * as Form from '../ui/form';
+  import { addToast } from '../ui/Toaster.svelte';
   import CustomerSelect from './CustomerSelect.svelte';
 
-  export let form: SuperValidated<EditTimeEntrySchema>;
-  export let customers: SelectData | undefined;
-  export let options: FormOptions<EditTimeEntrySchema>;
+  export let form: SuperValidated<EditTimeEntrySchema> = $page.data.form;
 </script>
 
 <Form.Root
   {form}
-  {options}
   schema={editTimeEntrySchema}
+  options={{
+    validators: editTimeEntrySchema,
+    onResult: ({ result }) => {
+      switch (result.type) {
+        case 'success':
+        case 'redirect':
+          addToast({
+            data: {
+              title: 'Success!',
+              description: 'Time entry edited successfully!'
+            }
+          });
+          break;
+      }
+    },
+    onError: ({ result }) => {
+      console.log(result);
+      addToast({ data: { title: 'Error!', description: result.error.message } });
+    }
+  }}
   method="POST"
+  enctype="multipart/form-data"
   action="?/editTime"
   class="grid gap-4 rounded-md border bg-background p-8"
   let:config
@@ -27,10 +45,10 @@
       <Form.Validation />
     </Form.Item>
   </Form.Field>
-  <Form.Field {config} name="customer" let:setValue let:value>
+  <Form.Field {config} name="customer">
     <Form.Item class="flex flex-col">
       <Form.Label>Customer</Form.Label>
-      <CustomerSelect {setValue} {value} {customers} />
+      <CustomerSelect />
       <Form.Validation />
     </Form.Item>
   </Form.Field>

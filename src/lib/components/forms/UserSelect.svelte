@@ -8,19 +8,12 @@
   import * as Command from '../ui/command';
   import * as Popover from '../ui/popover';
 
-  type Props = {
-    value: string;
-    name?: string;
-    removable?: boolean;
-    onChange?: (newValue: string) => Promise<void>;
-    onRemove?: (indexToRemove: string | undefined) => Promise<void>;
-  };
-
-  export let value: Props['value'] = '';
-  export let name: Props['name'] = undefined;
-  export let removable: Props['removable'] = false;
-  export let onChange: Props['onChange'] = undefined;
-  export let onRemove: Props['onRemove'] = undefined;
+  export let value: string = '';
+  export let name: string | undefined = undefined;
+  export let removable: boolean | undefined = false;
+  export let onChange: ((newValue: string) => Promise<void>) | undefined = undefined;
+  export let onRemove: ((indexToRemove: string | undefined) => Promise<void>) | undefined =
+    undefined;
 
   let users = convertSelectData($page.data.fullUsersList);
   let open = false;
@@ -49,7 +42,7 @@
           {#if selectedUser}
             {#key selectedUser}
               <UserAvatar
-                class="mr-2 h-7 w-7"
+                class="mr-2 h-8 w-8"
                 user={$page.data.fullUsersList?.find((user) => user.id === selectedUser?.value)}
               />
             {/key}

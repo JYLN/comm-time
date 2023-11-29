@@ -5,11 +5,11 @@ import { ClientResponseError } from 'pocketbase';
 import { superValidate } from 'sveltekit-superforms/server';
 
 export async function load({ locals }) {
-  const customers = await locals.pb?.collection('customers').getFullList();
+  const fullCustomersList = await locals.pb?.collection('customers').getFullList();
 
   return {
     form: superValidate(timeEntrySchema),
-    customerData: customers
+    fullCustomersList
   };
 }
 
