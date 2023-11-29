@@ -5,9 +5,9 @@
   import type { SuperValidated } from 'sveltekit-superforms';
   import { superForm } from 'sveltekit-superforms/client';
   import type { UsersResponse } from '../../../backend-types';
+  import { addToast } from '../ui/Toaster.svelte';
   import { Button } from '../ui/button';
   import { Label } from '../ui/label';
-  import { addToast } from '../ui/Toaster.svelte';
   import UserSelect from './UserSelect.svelte';
 
   export let users: UsersResponse[] | undefined;
@@ -44,7 +44,6 @@
   });
 
   async function addUser(newValue: string) {
-    console.log('ADDING USER');
     if (!newValue) return;
     $form.shared_users = [...($form.shared_users as string[]), newValue];
     await tick();
