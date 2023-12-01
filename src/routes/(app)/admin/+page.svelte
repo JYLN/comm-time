@@ -1,12 +1,9 @@
 <script lang="ts">
-  import CustomerSelect from '$lib/components/forms/CustomerSelect.svelte';
   import AdminAddCustomerForm from '$lib/components/forms/admin/AdminAddCustomerForm.svelte';
+  import AdminEditCustomerForm from '$lib/components/forms/admin/AdminEditCustomerForm.svelte';
   import TabCard from '$lib/components/ui/TabCard.svelte';
   import * as Card from '$lib/components/ui/card';
-  import * as Form from '$lib/components/ui/form';
   import * as Tabs from '$lib/components/ui/tabs';
-  import { adminEditCustomerSchema } from '$lib/schemas/index.js';
-  import { convertSelectData } from '$lib/utils.js';
 
   export let data;
 </script>
@@ -32,33 +29,7 @@
         <TabCard>
           <svelte:fragment slot="description">Select a customer below to edit.</svelte:fragment>
           <svelte:fragment slot="form">
-            <Form.Root
-              form={data.adminEditCustomerForm}
-              schema={adminEditCustomerSchema}
-              method="POST"
-              action="?/editCustomer"
-              let:config
-              class="grid gap-4"
-              debug={true}
-              let:formValues
-            >
-              <Form.Field {config} name="id" let:setValue let:value>
-                <CustomerSelect
-                  {setValue}
-                  {value}
-                  customers={convertSelectData(data.fullCustomersList)}
-                />
-                <Form.Validation />
-              </Form.Field>
-              {#if formValues.id}
-                <Form.Field {config} name="new_name">
-                  <Form.Label>Update Name</Form.Label>
-                  <Form.Input />
-                  <Form.Validation />
-                </Form.Field>
-              {/if}
-              <Form.Button>Submit</Form.Button>
-            </Form.Root>
+            <AdminEditCustomerForm />
           </svelte:fragment>
         </TabCard>
       </Tabs.Content>
