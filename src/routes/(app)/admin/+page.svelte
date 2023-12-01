@@ -8,6 +8,10 @@
   export let data;
 </script>
 
+<svelte:head>
+  <title>Admin - CommTime</title>
+</svelte:head>
+
 <section class="grid w-full grid-cols-[1fr_400px] gap-6">
   <div>
     <Tabs.Root>
