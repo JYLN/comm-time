@@ -1,5 +1,5 @@
 import type {
-  adminCreateCustomerSchema,
+  adminAddCustomerSchema,
   adminEditCustomerSchema,
   deleteTimeEntrySchema,
   editTimeEntrySchema,
@@ -34,7 +34,7 @@ declare global {
       type EditTimeEntrySchema = typeof editTimeEntrySchema;
       type DeleteTimeEntrySchema = typeof deleteTimeEntrySchema;
       type SharedUsersSchema = typeof sharedUsersSchema;
-      type AdminCreateCustomerSchema = typeof adminCreateCustomerSchema;
+      type AdminAddCustomerSchema = typeof adminAddCustomerSchema;
       type AdminEditCustomerSchema = typeof adminEditCustomerSchema;
     }
 
