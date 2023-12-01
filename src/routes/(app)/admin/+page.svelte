@@ -1,11 +1,11 @@
 <script lang="ts">
   import CustomerSelect from '$lib/components/forms/CustomerSelect.svelte';
+  import AdminAddCustomerForm from '$lib/components/forms/admin/AdminAddCustomerForm.svelte';
   import TabCard from '$lib/components/ui/TabCard.svelte';
-  import { addToast } from '$lib/components/ui/Toaster.svelte';
   import * as Card from '$lib/components/ui/card';
   import * as Form from '$lib/components/ui/form';
   import * as Tabs from '$lib/components/ui/tabs';
-  import { adminCreateCustomerSchema, adminEditCustomerSchema } from '$lib/schemas/index.js';
+  import { adminEditCustomerSchema } from '$lib/schemas/index.js';
   import { convertSelectData } from '$lib/utils.js';
 
   export let data;
@@ -24,40 +24,7 @@
             Fill out the form below to add a new customer.
           </svelte:fragment>
           <svelte:fragment slot="form">
-            <Form.Root
-              form={data.adminCreateCustomerForm}
-              schema={adminCreateCustomerSchema}
-              method="POST"
-              action="?/createCustomer"
-              options={{
-                onResult: ({ result }) => {
-                  switch (result.type) {
-                    case 'success':
-                    case 'redirect':
-                      addToast({
-                        data: { title: 'Success!', description: 'Customer successfully added!' }
-                      });
-                      break;
-                  }
-                },
-                onError: ({ result }) => {
-                  console.log(result);
-                  addToast({ data: { title: 'Error!', description: result.error.message } });
-                }
-              }}
-              let:config
-              class="grid gap-4"
-              debug={true}
-            >
-              <Form.Field {config} name="name">
-                <Form.Item>
-                  <Form.Label>New Customer Name</Form.Label>
-                  <Form.Input />
-                  <Form.Validation />
-                </Form.Item>
-              </Form.Field>
-              <Form.Button>Submit</Form.Button>
-            </Form.Root>
+            <AdminAddCustomerForm />
           </svelte:fragment>
         </TabCard>
       </Tabs.Content>

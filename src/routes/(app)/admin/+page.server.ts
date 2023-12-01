@@ -1,4 +1,4 @@
-import { adminCreateCustomerSchema, adminEditCustomerSchema } from '$lib/schemas';
+import { adminAddCustomerSchema, adminEditCustomerSchema } from '$lib/schemas';
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import { serialize } from 'object-to-formdata';
 import { ClientResponseError } from 'pocketbase';
@@ -8,7 +8,7 @@ import type { CustomersResponse } from '../../../backend-types.js';
 export async function load({ locals }) {
   if (!locals.pb?.authStore.isAdmin) throw redirect(303, '/');
 
-  const adminCreateCustomerForm = superValidate(adminCreateCustomerSchema);
+  const adminAddCustomerForm = superValidate(adminAddCustomerSchema);
   const adminEditCustomerForm = superValidate(adminEditCustomerSchema);
 
   const fullCustomersList = (await locals.pb
@@ -16,24 +16,24 @@ export async function load({ locals }) {
     .getFullList()) as CustomersResponse[];
 
   return {
-    adminCreateCustomerForm,
+    adminAddCustomerForm,
     adminEditCustomerForm,
     fullCustomersList
   };
 }
 
 export const actions: Actions = {
-  createCustomer: async ({ request, locals }) => {
-    const adminCreateCustomerForm = await superValidate(request, adminCreateCustomerSchema);
+  addCustomer: async ({ request, locals }) => {
+    const adminAddCustomerForm = await superValidate(request, adminAddCustomerSchema);
 
-    if (!adminCreateCustomerForm.valid) {
+    if (!adminAddCustomerForm.valid) {
       return fail(400, {
-        adminCreateCustomerForm
+        adminAddCustomerForm
       });
     }
 
     try {
-      await locals.pb?.collection('customers').create(serialize(adminCreateCustomerForm.data));
+      await locals.pb?.collection('customers').create(serialize(adminAddCustomerForm.data));
     } catch (err) {
       if (err instanceof ClientResponseError) {
         console.error(err);

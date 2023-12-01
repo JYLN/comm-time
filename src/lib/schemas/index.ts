@@ -44,7 +44,7 @@ export const sharedUsersSchema = z.object({
     .optional()
 });
 
-export const adminCreateCustomerSchema = z.object({
+export const adminAddCustomerSchema = z.object({
   name: z.string().min(1)
 });
 
