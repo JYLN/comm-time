@@ -73,24 +73,20 @@
     table.column({
       accessor: 'start_time',
       header: 'Start Time',
-      cell: ({ value }) => {
-        return humanize(value);
-      },
+      cell: ({ value }) => humanize(value),
       plugins: { ...convertFilterValue, ...convertSortValue }
     }),
     table.column({
       accessor: 'end_time',
       header: 'End Time',
-      cell: ({ value }) => {
-        return humanize(value);
-      },
+      cell: ({ value }) => humanize(value),
       plugins: { ...convertFilterValue, ...convertSortValue }
     }),
     table.column({
       accessor: 'elapsed_time',
       header: 'Total Time',
       cell: ({ value }) => humanize(value),
-      ...excludeFromFilter
+      plugins: { ...excludeFromFilter }
     }),
     table.column({
       accessor: ({ expand }) => expand?.shared_users,
@@ -145,18 +141,16 @@
           <Table.Row>
             {#each headerRow.cells as cell (cell.id)}
               <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
-                {#if cell.id === 'actions' || cell.id === 'shared_users'}
-                  <Table.Head {...attrs}>
+                <Table.Head {...attrs}>
+                  {#if cell.id === 'actions' || cell.id === 'shared_users'}
                     <Render of={cell.render()} />
-                  </Table.Head>
-                {:else}
-                  <Table.Head {...attrs}>
+                  {:else}
                     <Button variant="link" class="px-0" on:click={props.sort.toggle}>
                       <Render of={cell.render()} />
                       <ArrowUpDown class="ml-2 h-4 w-4" />
                     </Button>
-                  </Table.Head>
-                {/if}
+                  {/if}
+                </Table.Head>
               </Subscribe>
             {/each}
           </Table.Row>
