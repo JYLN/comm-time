@@ -1,6 +1,6 @@
 <script lang="ts">
   import { humanize } from '$lib/utils';
-  import { ArrowUpDown } from 'lucide-svelte';
+  import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-svelte';
   import type { RecordModel } from 'pocketbase';
   import { Render, Subscribe, createRender, createTable } from 'svelte-headless-table';
   import { addSortBy, addTableFilter } from 'svelte-headless-table/plugins';
@@ -86,7 +86,7 @@
       accessor: 'elapsed_time',
       header: 'Total Time',
       cell: ({ value }) => humanize(value),
-      plugins: { ...excludeFromFilter }
+      plugins: { ...excludeFromFilter, ...convertSortValue }
     }),
     table.column({
       accessor: ({ expand }) => expand?.shared_users,
@@ -123,6 +123,7 @@
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
     table.createViewModel(columns);
   const { filterValue } = pluginStates.filter;
+  const { sortKeys } = pluginStates.sort;
 </script>
 
 <div class="mb-6">
@@ -147,7 +148,15 @@
                   {:else}
                     <Button variant="link" class="px-0" on:click={props.sort.toggle}>
                       <Render of={cell.render()} />
-                      <ArrowUpDown class="ml-2 h-4 w-4" />
+                      {#if $sortKeys[0] && cell.id === $sortKeys[0].id}
+                        {#if $sortKeys[0].order === 'asc'}
+                          <ArrowUp class="ml-2 h-4 w-4" />
+                        {:else}
+                          <ArrowDown class="ml-2 h-4 w-4" />
+                        {/if}
+                      {:else}
+                        <ArrowUpDown class="ml-2 h-4 w-4" />
+                      {/if}
                     </Button>
                   {/if}
                 </Table.Head>
