@@ -1,5 +1,6 @@
 <script lang="ts">
   import { humanize } from '$lib/utils';
+  import { ArrowUpDown } from 'lucide-svelte';
   import type { RecordModel } from 'pocketbase';
   import { Render, Subscribe, createRender, createTable } from 'svelte-headless-table';
   import { addSortBy, addTableFilter } from 'svelte-headless-table/plugins';
@@ -9,6 +10,7 @@
     TimeEntriesResponse,
     UsersResponse
   } from '../../../backend-types';
+  import { Button } from '../ui/button';
   import TimeTableActions from './TimeTableActions.svelte';
   import UserAvatarStack from './UserAvatarStack.svelte';
   import { Input } from './input';
@@ -51,6 +53,14 @@
     }
   };
 
+  const convertSortValue = {
+    sort: {
+      getSortValue: (result: any) => {
+        return humanize(result);
+      }
+    }
+  };
+
   const columns = table.createColumns([
     table.column({
       accessor: 'name',
@@ -66,7 +76,7 @@
       cell: ({ value }) => {
         return humanize(value);
       },
-      plugins: { ...convertFilterValue }
+      plugins: { ...convertFilterValue, ...convertSortValue }
     }),
     table.column({
       accessor: 'end_time',
@@ -74,7 +84,7 @@
       cell: ({ value }) => {
         return humanize(value);
       },
-      plugins: { ...convertFilterValue }
+      plugins: { ...convertFilterValue, ...convertSortValue }
     }),
     table.column({
       accessor: 'elapsed_time',
@@ -85,12 +95,13 @@
     table.column({
       accessor: ({ expand }) => expand?.shared_users,
       header: '',
+      id: 'shared_users',
       cell: ({ value }) => {
         return createRender(UserAvatarStack, {
           users: value
         });
       },
-      plugins: { ...excludeFromFilter }
+      plugins: { ...excludeFromFilter, ...excludeFromSort }
     }),
     table.column({
       accessor: (item) => item,
@@ -126,17 +137,26 @@
     bind:value={$filterValue}
   />
 </div>
-<div class="grid gap-6 rounded-md border bg-background">
+<div class="rounded-md border bg-background">
   <Table.Root {...$tableAttrs}>
     <Table.Header>
       {#each $headerRows as headerRow}
         <Subscribe rowAttrs={headerRow.attrs()}>
           <Table.Row>
             {#each headerRow.cells as cell (cell.id)}
-              <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()}>
-                <Table.Head {...attrs}>
-                  <Render of={cell.render()} />
-                </Table.Head>
+              <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
+                {#if cell.id === 'actions' || cell.id === 'shared_users'}
+                  <Table.Head {...attrs}>
+                    <Render of={cell.render()} />
+                  </Table.Head>
+                {:else}
+                  <Table.Head {...attrs}>
+                    <Button variant="link" class="px-0" on:click={props.sort.toggle}>
+                      <Render of={cell.render()} />
+                      <ArrowUpDown class="ml-2 h-4 w-4" />
+                    </Button>
+                  </Table.Head>
+                {/if}
               </Subscribe>
             {/each}
           </Table.Row>
