@@ -112,7 +112,7 @@ export const getAvatarImageUrl = (
 // ? Editor Utils
 export const formatCommand = (
   textarea: HTMLTextAreaElement,
-  command: 'heading' | 'bold' | 'italic' | 'link' | 'list-number' | 'list'
+  command: 'heading' | 'bold' | 'italic' | 'link' | 'list-number' | 'list' | 'list-check'
 ) => {
   // Get selection values
   const start = textarea.selectionStart;
@@ -124,6 +124,7 @@ export const formatCommand = (
   const linkRegex = /\[(.*?)\]\(.*?\)/gm;
   const listNumberRegex = /^\d+\.\s(.*)$/gm;
   const listRegex = /^-\s(.*)$/gm;
+  const checkboxRegex = /^-\s\[[x|\s]\]\s(.*)$/gm;
 
   if (start || start === 0) {
     // Get selection in a new string
@@ -192,6 +193,19 @@ export const formatCommand = (
           selected = `\n- ${selected}`;
           newEnd += 3;
         }
+        break;
+      case 'list-check':
+        if (checkboxRegex.test(selected)) {
+          const matches = selected.match(checkboxRegex);
+          matches?.forEach((match, i) => {
+            if (i === 0) return (selected = match.replace(/^-\s\[[x|\s]\]\s(.*)$/, '$1'));
+            return (selected += match.replace(/^-\s\[[x|\s]\]\s(.*)$/, '\n$1'));
+          });
+        } else {
+          selected = `- [ ] ${selected}`;
+          newEnd += 6;
+        }
+        break;
     }
 
     // Set new value of entire text area string

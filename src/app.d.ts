@@ -41,7 +41,7 @@ declare global {
     interface EditorButtons {
       name: string;
       icon: ConstructorOfATypedSvelteComponent;
-      command?: 'heading' | 'bold' | 'italic' | 'link' | 'list-number' | 'list';
+      command?: 'heading' | 'bold' | 'italic' | 'link' | 'list-number' | 'list' | 'list-check';
     }
 
     interface SelectData {
