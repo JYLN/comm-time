@@ -2,7 +2,16 @@
   import { formatCommand } from '$lib/utils';
   import type { Tooltip as TooltipPrimitive } from 'bits-ui';
   import { getFormField } from 'formsnap';
-  import { Bold, ClipboardCopy, Heading, Italic, Link, List, ListOrdered } from 'lucide-svelte';
+  import {
+    Bold,
+    ClipboardCopy,
+    Heading,
+    Italic,
+    Link,
+    List,
+    ListChecks,
+    ListOrdered
+  } from 'lucide-svelte';
   import { addToast } from '../ui/Toaster.svelte';
   import { Button } from '../ui/button';
   import * as Tooltip from '../ui/tooltip';
@@ -41,6 +50,7 @@
     { name: 'Link', icon: Link, command: 'link' },
     { name: 'Ordered List', icon: ListOrdered, command: 'list-number' },
     { name: 'Unordered List', icon: List, command: 'list' },
+    { name: 'Check List', icon: ListChecks, command: 'list-check' },
     { name: 'Copy to Clipboard', icon: ClipboardCopy }
   ];
 </script>
