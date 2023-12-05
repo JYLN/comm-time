@@ -2,7 +2,7 @@
   import { humanize } from '$lib/utils';
   import type { RecordModel } from 'pocketbase';
   import { Render, Subscribe, createRender, createTable } from 'svelte-headless-table';
-  import { addTableFilter } from 'svelte-headless-table/plugins';
+  import { addSortBy, addTableFilter } from 'svelte-headless-table/plugins';
   import { writable } from 'svelte/store';
   import type {
     CustomersResponse,
@@ -27,23 +27,26 @@
   const table = createTable(tableData, {
     filter: addTableFilter({
       fn: ({ filterValue, value }) => value.toLowerCase().includes(filterValue.toLowerCase())
-    })
+    }),
+    sort: addSortBy()
   });
 
   const excludeFromFilter = {
-    plugins: {
-      filter: {
-        exclude: true
-      }
+    filter: {
+      exclude: true
+    }
+  };
+
+  const excludeFromSort = {
+    sort: {
+      disable: true
     }
   };
 
   const convertFilterValue = {
-    plugins: {
-      filter: {
-        getFilterValue: (result: any) => {
-          return humanize(result);
-        }
+    filter: {
+      getFilterValue: (result: any) => {
+        return humanize(result);
       }
     }
   };
@@ -63,7 +66,7 @@
       cell: ({ value }) => {
         return humanize(value);
       },
-      ...convertFilterValue
+      plugins: { ...convertFilterValue }
     }),
     table.column({
       accessor: 'end_time',
@@ -71,7 +74,7 @@
       cell: ({ value }) => {
         return humanize(value);
       },
-      ...convertFilterValue
+      plugins: { ...convertFilterValue }
     }),
     table.column({
       accessor: 'elapsed_time',
@@ -87,7 +90,7 @@
           users: value
         });
       },
-      ...excludeFromFilter
+      plugins: { ...excludeFromFilter }
     }),
     table.column({
       accessor: (item) => item,
@@ -106,7 +109,7 @@
           end_time: value.end_time
         });
       },
-      ...excludeFromFilter
+      plugins: { ...excludeFromFilter, ...excludeFromSort }
     })
   ]);
 
