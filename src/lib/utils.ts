@@ -137,8 +137,15 @@ export const formatCommand = (
         if (headingRegex.test(selected)) {
           selected = selected.replace(headingRegex, '$1');
         } else {
-          selected = `### ${selected}`;
-          newEnd += 4;
+          if (
+            textarea.value.charAt(start - 1) !== '\n' &&
+            textarea.value.charAt(start - 1) !== ''
+          ) {
+            selected = `\n\n### ${selected}`;
+          } else {
+            selected = `### ${selected}`;
+          }
+          newEnd += 6;
         }
         break;
       case 'bold':
@@ -178,7 +185,14 @@ export const formatCommand = (
             return (selected += match.replace(/^\d+\.\s(.*)$/, '\n$1'));
           });
         } else {
-          selected = `\n1. ${selected}`;
+          if (
+            textarea.value.charAt(start - 1) !== '\n' &&
+            textarea.value.charAt(start - 1) !== ''
+          ) {
+            selected = `\n\n1. ${selected}`;
+          } else {
+            selected = `1. ${selected}`;
+          }
           newEnd += 5;
         }
         break;
@@ -190,8 +204,15 @@ export const formatCommand = (
             return (selected += match.replace(/^-\s(.*)$/, '\n$1'));
           });
         } else {
-          selected = `\n- ${selected}`;
-          newEnd += 3;
+          if (
+            textarea.value.charAt(start - 1) !== '\n' &&
+            textarea.value.charAt(start - 1) !== ''
+          ) {
+            selected = `\n\n- ${selected}`;
+          } else {
+            selected = `- ${selected}`;
+          }
+          newEnd += 4;
         }
         break;
       case 'list-check':
@@ -202,8 +223,15 @@ export const formatCommand = (
             return (selected += match.replace(/^-\s\[[x|\s]\]\s(.*)$/, '\n$1'));
           });
         } else {
-          selected = `- [ ] ${selected}`;
-          newEnd += 6;
+          if (
+            textarea.value.charAt(start - 1) !== '\n' &&
+            textarea.value.charAt(start - 1) !== ''
+          ) {
+            selected = `\n\n- [ ] ${selected}`;
+          } else {
+            selected = `- [ ] ${selected}`;
+          }
+          newEnd += 8;
         }
         break;
     }
