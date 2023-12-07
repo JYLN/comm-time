@@ -249,3 +249,31 @@ export const formatCommand = (
     textarea.setSelectionRange(newEnd, newEnd);
   }
 };
+
+export const handleNewLine = (value: string, pos: number) => {
+  const lineStart = value.lastIndexOf('\n', pos - 1) + 1;
+  const lineEnd = value.indexOf('\n', pos);
+  const currentLine = value.substring(lineStart, lineEnd !== -1 ? lineEnd : undefined);
+  const lines = value.split('\n');
+  const currentLineIdx = lines.indexOf(currentLine);
+
+  const isUnorderedList = /^-\s.*$/.test(currentLine);
+  const isOrderedList = /^\d+\.\s.*$/.test(currentLine);
+  const isCheckboxList = /^-\s\[[x|\s]\]\s.*$/.test(currentLine);
+  const isNotEmptyCheckItem = /^-\s\[[x|\s]\]\s.{2,}$/.test(currentLine);
+  const isNotEmptyItem = /^-\s.+$/.test(currentLine);
+  const isNotEmptyOrderedItem = /^\d+\.\s.+$/.test(currentLine);
+
+  if (isCheckboxList && isNotEmptyCheckItem) {
+    lines.splice(currentLineIdx + 1, 0, '- [ ] ');
+  } else if (isUnorderedList && isNotEmptyItem) {
+    lines.splice(currentLineIdx + 1, 0, '- ');
+  } else if (isOrderedList && isNotEmptyOrderedItem) {
+    const currentListItem = parseInt(currentLine.match(/^\d+\.\s.*$/)?.[0] as string);
+    lines.splice(currentLineIdx + 1, 0, `${currentListItem + 1}. `);
+  } else {
+    lines.splice(currentLineIdx + 1, 0, '');
+  }
+
+  return lines.join('\n');
+};

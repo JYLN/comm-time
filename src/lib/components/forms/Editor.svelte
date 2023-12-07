@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formatCommand } from '$lib/utils';
+  import { formatCommand, handleNewLine } from '$lib/utils';
   import type { Tooltip as TooltipPrimitive } from 'bits-ui';
   import { getFormField } from 'formsnap';
   import {
@@ -17,22 +17,6 @@
   import * as Tooltip from '../ui/tooltip';
 
   let textAreaRef: HTMLTextAreaElement;
-
-  async function handleCopy() {
-    try {
-      navigator.clipboard.writeText($editorValue as string);
-    } catch (err) {
-      console.error(err);
-      addToast({ data: { title: 'Error!', description: 'Something went wrong. Try again!' } });
-    } finally {
-      addToast({
-        data: {
-          title: 'Success!',
-          description: 'Note contents have successfully been copied to your clipboard!'
-        }
-      });
-    }
-  }
 
   const { attrStore, actions, value: editorValue } = getFormField();
 
@@ -53,6 +37,36 @@
     { name: 'Check List', icon: ListChecks, command: 'list-check' },
     { name: 'Copy to Clipboard', icon: ClipboardCopy }
   ];
+
+  function handleInput(e: Event) {
+    const { key, target } = e as KeyboardEvent;
+
+    if (key === 'Enter') {
+      const textarea = target as HTMLTextAreaElement;
+      const pos = textarea.selectionStart;
+      const value = $editorValue as string;
+
+      editorValue.set(handleNewLine(value, pos));
+
+      e.preventDefault();
+    }
+  }
+
+  async function handleCopy() {
+    try {
+      navigator.clipboard.writeText($editorValue as string);
+    } catch (err) {
+      console.error(err);
+      addToast({ data: { title: 'Error!', description: 'Something went wrong. Try again!' } });
+    } finally {
+      addToast({
+        data: {
+          title: 'Success!',
+          description: 'Note contents have successfully been copied to your clipboard!'
+        }
+      });
+    }
+  }
 </script>
 
 <div class="relative">
@@ -61,6 +75,7 @@
     rows="12"
     bind:this={textAreaRef}
     bind:value={$editorValue}
+    on:keypress={handleInput}
     use:actions.textarea
     {...$attrStore}
   />
