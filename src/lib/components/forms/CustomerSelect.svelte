@@ -21,7 +21,7 @@
   }
 </script>
 
-<Popover.Root bind:open let:ids positioning={{ placement: 'bottom-start' }}>
+<Popover.Root bind:open let:ids>
   <Popover.Trigger asChild let:builder>
     <Form.Control id={ids.trigger} let:attrs>
       <Button
@@ -37,7 +37,7 @@
       </Button>
     </Form.Control>
   </Popover.Trigger>
-  <Popover.Content class="w-[325px] p-0">
+  <Popover.Content class="w-[325px] p-0" side="bottom" align="start" sideOffset={8}>
     <Command.Root>
       <Command.Input autofocus placeholder="Search customer..." />
       <Command.Empty>No customer found.</Command.Empty>

@@ -7,12 +7,12 @@
   import SharedUserForm from '../forms/SharedUserForm.svelte';
   import * as AlertDialog from '../ui/alert-dialog';
   import * as Sheet from '../ui/sheet';
-  import { Button } from './button';
-  import * as DropdownMenu from './dropdown-menu';
   import NotesDisplay from './NotesDisplay.svelte';
-  import { Separator } from './separator';
   import UserAvatar from './UserAvatar.svelte';
   import UserAvatarStack from './UserAvatarStack.svelte';
+  import { Button } from './button';
+  import * as DropdownMenu from './dropdown-menu';
+  import { Separator } from './separator';
 
   export let id: string;
   export let name: string;
@@ -30,13 +30,13 @@
   let shareSheetOpen: boolean = false;
 </script>
 
-<DropdownMenu.Root positioning={{ placement: 'bottom-end' }} bind:open={actionsOpen}>
+<DropdownMenu.Root bind:open={actionsOpen}>
   <DropdownMenu.Trigger asChild let:builder>
     <Button variant="ghost" builders={[builder]} size="icon" class="relative h-8 w-8 p-0">
       <MoreHorizontal class="h-4 w-4" />
     </Button>
   </DropdownMenu.Trigger>
-  <DropdownMenu.Content>
+  <DropdownMenu.Content side="bottom" align="end" sideOffset={4}>
     <DropdownMenu.Label>Actions</DropdownMenu.Label>
     <DropdownMenu.Group>
       <DropdownMenu.Item on:click={() => (noteSheetOpen = true)}>
@@ -67,7 +67,7 @@
   </DropdownMenu.Content>
 </DropdownMenu.Root>
 
-<Sheet.Root bind:open={noteSheetOpen} openFocus="[data-bits-dialog-close]">
+<Sheet.Root bind:open={noteSheetOpen} openFocus="[data-dialog-close]">
   <Sheet.Content class="w-full sm:max-w-3xl">
     <Sheet.Header class="mb-3 space-y-3">
       <Sheet.Title class="mb-1 text-4xl">{name}</Sheet.Title>
@@ -135,7 +135,7 @@
   </AlertDialog.Content>
 </AlertDialog.Root>
 
-<Sheet.Root bind:open={shareSheetOpen} openFocus="[data-bits-dialog-close]">
+<Sheet.Root bind:open={shareSheetOpen} openFocus="[data-dialog-close]">
   <Sheet.Content class="w-full sm:max-w-xl">
     <Sheet.Header class="mb-3">
       <Sheet.Title>Share - {name}</Sheet.Title>

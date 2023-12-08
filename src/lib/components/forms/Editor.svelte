@@ -22,7 +22,6 @@
   const { attrStore, actions, value: editorValue } = getFormField();
 
   const toolTipProps: TooltipPrimitive.Props = {
-    positioning: { placement: 'bottom' },
     openDelay: 200,
     closeDelay: 100,
     group: 'actions'
@@ -96,7 +95,7 @@
             <svelte:component this={button.icon} class="h-4 w-4" />
           </Button>
         </Tooltip.Trigger>
-        <Tooltip.Content>{button.name}</Tooltip.Content>
+        <Tooltip.Content side="bottom" sideOffset={5}>{button.name}</Tooltip.Content>
       </Tooltip.Root>
     {/each}
   </div>

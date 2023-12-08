@@ -23,13 +23,13 @@
     {/each}
   </div>
   <div class="mobile">
-    <DropdownMenu.Root positioning={{ placement: 'bottom-end' }}>
+    <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild let:builder>
         <Button variant="outline" builders={[builder]}>
           <AlignLeft class="h-6 w-6" />
         </Button>
       </DropdownMenu.Trigger>
-      <DropdownMenu.Content class="w-56">
+      <DropdownMenu.Content class="w-56" side="bottom" align="end" sideOffset={8}>
         {#each links as link}
           <DropdownMenu.Item href={link.href}>
             <svelte:component this={link.icon} class="mr-2 h-4 w-4" />
@@ -40,13 +40,13 @@
     </DropdownMenu.Root>
   </div>
   <div class="actions">
-    <DropdownMenu.Root positioning={{ placement: 'bottom-end' }}>
+    <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild let:builder>
         <Button variant="ghost" class="relative h-9 w-9 rounded-full px-0" builders={[builder]}>
           <UserAvatar class="h-9 w-9" />
         </Button>
       </DropdownMenu.Trigger>
-      <DropdownMenu.Content class="w-56">
+      <DropdownMenu.Content class="w-56" side="bottom" align="end" sideOffset={8}>
         <DropdownMenu.Label>
           <div class="space-y-1">
             <p class="text-sm font-bold leading-none">{$page.data.user.name ?? 'Admin'}</p>

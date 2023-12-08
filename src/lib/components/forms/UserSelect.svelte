@@ -28,7 +28,7 @@
   }
 </script>
 
-<Popover.Root bind:open let:ids positioning={{ placement: 'bottom-start' }}>
+<Popover.Root bind:open let:ids>
   <Popover.Trigger asChild let:builder>
     <div class="flex gap-2">
       <Button
@@ -58,7 +58,7 @@
       {/if}
     </div>
   </Popover.Trigger>
-  <Popover.Content class="w-[425px] p-0">
+  <Popover.Content class="w-[425px] p-0" side="bottom" align="start" sideOffset={8}>
     <Command.Root>
       <Command.Input autofocus placeholder="Search user..." />
       <Command.Empty>No user found.</Command.Empty>

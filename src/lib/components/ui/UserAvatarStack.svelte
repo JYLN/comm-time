@@ -12,7 +12,6 @@
   const displayedUsers = users?.slice(0, 3);
   const nonDisplayedUsers = users?.slice(3);
   const toolTipProps: TooltipPrimitive.Props = {
-    positioning: { placement: 'bottom' },
     openDelay: 200,
     closeDelay: 100,
     group: 'user',
@@ -33,7 +32,7 @@
         <Tooltip.Trigger>
           <UserAvatar {user} class={stack_class} />
         </Tooltip.Trigger>
-        <Tooltip.Content>
+        <Tooltip.Content side="bottom">
           <p>{user.name}</p>
         </Tooltip.Content>
       </Tooltip.Root>
@@ -46,7 +45,7 @@
             <Avatar.Fallback>+{nonDisplayedUsers.length}</Avatar.Fallback>
           </Avatar.Root>
         </Tooltip.Trigger>
-        <Tooltip.Content>
+        <Tooltip.Content side="bottom">
           {#each nonDisplayedUsers as user (user.id)}
             <p>{user.name}</p>
           {/each}
